@@ -17,3 +17,6 @@ players and strategies feels positively attainable.
 This repository is to help me fulfill my childhood wish of having the 'best' lineup. While I have
 it mostly narrowed down, there are some places where the choice between the top few players isn't
 clear.
+
+This isn't coded in Python because it's a very object-oriented project, and Python simply isn't
+the optimal programming language for object-oriented tasks.
