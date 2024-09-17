@@ -11,7 +11,7 @@ public class DataParser {
 
 	
 	public static ArrayList<Player> parseData() {
-		parseData("card_list.csv");
+		return parseData("card_list.csv");
 	}
 	
 	public static ArrayList<Player> parseData(String filename) {

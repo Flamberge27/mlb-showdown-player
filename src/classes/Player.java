@@ -13,7 +13,9 @@ public class Player {
 	public int points;
 	public int year;
 	public String pos;
-	public String hand; // could make this an enum, don't currently care enough to
+	public char hand; // could make this an enum, don't currently care enough to
+	private String[] real_icons;
+	private String[] assumed_icons;
 	public Chart chart;
 	
 	public Player() {
@@ -26,19 +28,69 @@ public class Player {
 	
 
 	public Player(String[] stats, int[] positionMap) {
+		/* Essentials:
+		 * 	name
+		 * 	points
+		 *  year
+		 *>  on base/control
+		 *>  speed/ip
+		 *>  position
+		 *  hand
+		 *  icon
+		 *>  chart
+		 */
 		try {
+			name = stats[positionMap[4]];
+			points = Integer.parseInt(stats[positionMap[6]]);
+			year = Integer.parseInt(stats[positionMap[7]].replaceAll("'",""));
+			hand = stats[positionMap[11]].charAt(0);
 			
+			String[] found_icons = getIconsFromString(stats[positionMap[12]]);
+			if(year > 2)
+				real_icons = found_icons;
+			else
+				assumed_icons = found_icons;
+			
+			isvalid = true;
 		}
 		catch (Exception e) {
 			isvalid = false;
 		}
+		
+
+		/* Non-essentials:
+		 * 	rawnum
+		 *  num
+		 *  set
+		 *  team
+		 */
+		try {
+			index = stats[positionMap[0]];
+			rawnum = Integer.parseInt(stats[positionMap[1]]);
+			num = stats[positionMap[2]];
+		}
+		catch (Exception e) {
+			
+		}
+	}
+	
+	public String[] icons() {
+		return real_icons;
+	}
+	
+	public String[] icons(boolean assumeOld) {
+		if(assumeOld && year < 3) {
+			return assumed_icons;
+		}
+		
+		return real_icons;
 	}
 	
 	public String toString() {
 		if(!isvalid) {
 			return "invalid player";
 		}
-		return ""; //TODO: figure out how to represent cards in a concise string
+		return name + " '0" + year; //TODO: figure out how to represent cards in a concise string
 	}
 	
 	public String print() {
@@ -48,5 +100,10 @@ public class Player {
 	
 	public boolean isValid() {
 		return isvalid;
+	}
+
+	private String[] getIconsFromString(String raw_in) {
+		raw_in = raw_in.replaceAll("\\[", "").replaceAll("\\]", "").trim();
+		return raw_in.split(" ");
 	}
 }
