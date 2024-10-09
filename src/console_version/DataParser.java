@@ -62,7 +62,9 @@ public class DataParser {
 		System.out.println("]");
 	}
 	
-	private static int mapStr(String in) {
+	
+	// probably an easier way to do this - enums with values?
+	public static int mapStr(String in) {
 		switch(in) {
 			case "Index":
 				return 0;
@@ -112,8 +114,58 @@ public class DataParser {
 				return 22;
 			default:
 				return 4; // When in doubt, shove unexpected input into the name column
+		}
 	}
-		
-		
+	public static String mapInt(int in) {
+		switch(in) {
+			case 0:
+				return "Index";
+			case 1:
+				return "Raw #";
+			case 2:
+				return "#";
+			case 3:
+				return "Set";
+			case 4:
+				return "Name";
+			case 5:
+				return "Team";
+			case 6:
+				return "Pts.";
+			case 7:
+				return "Yr.";
+			case 8:
+				return "OB/C";
+			case 9:
+				return "Spd/IP";
+			case 10:
+				return "Pos";
+			case 11:
+				return "H";
+			case 12:
+				return "Icon";
+			case 13:
+				return "PU";
+			case 14:
+				return "SO";
+			case 15:
+				return "GB";
+			case 16:
+				return "FB";
+			case 17:
+				return "W";
+			case 18:
+				return "S";
+			case 19:
+				return "S+";
+			case 20:
+				return "DB";
+			case 21:
+				return "TR";
+			case 22:
+				return "HR";
+		default:
+				return "Name"; // When in doubt, shove unexpected input into the name column
+		}
 	}
 }

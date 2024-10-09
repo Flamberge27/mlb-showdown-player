@@ -1,5 +1,7 @@
 package classes;
 
+import console_version.DataParser;
+
 public class Player {
 	private boolean isvalid;
 	
@@ -36,8 +38,8 @@ public class Player {
 		 *>  speed/ip
 		 *>  position
 		 *  hand
-		 *  icon
-		 *>  chart
+		 *  icons
+		 *  chart
 		 */
 		try {
 			name = stats[positionMap[4]];
@@ -51,9 +53,12 @@ public class Player {
 			else
 				assumed_icons = found_icons;
 			
+			this.chart = new Chart(stats, positionMap);
+			
 			isvalid = true;
 		}
 		catch (Exception e) {
+			System.out.println("Failed to retrieve name/points/year/hand/icons");
 			isvalid = false;
 		}
 		
@@ -70,7 +75,7 @@ public class Player {
 			num = stats[positionMap[2]];
 		}
 		catch (Exception e) {
-			
+			System.out.println("Failed to retrieve index/num/set/team");
 		}
 	}
 	
@@ -105,5 +110,10 @@ public class Player {
 	private String[] getIconsFromString(String raw_in) {
 		raw_in = raw_in.replaceAll("\\[", "").replaceAll("\\]", "").trim();
 		return raw_in.split(" ");
+	}
+	
+	// private wrapper method
+	private int indexof(String in) {
+		return DataParser.mapStr(in);
 	}
 }
