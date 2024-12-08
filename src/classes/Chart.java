@@ -17,6 +17,7 @@ public class Chart {
 		/* A couple different possibilities here:
 		 
 		   -	(do nothing)
+		   #	(just #, # may be two digits)
 		   #-	(just #, # may be two digits)
 		   #-#	(all numbers in the given range, inclusive)
 		   #+	(# and all future numbers
@@ -33,9 +34,13 @@ public class Chart {
 			// second or third case
 			String[] split = rawRange.split("-");
 			start_at = Integer.parseInt(split[0]);
-			end_at = (split.length == 1) ? start_at : Integer.parseInt(split[0]);
+			end_at = (split.length == 1) ? start_at : Integer.parseInt(split[1]);
 			
-		} 
+		}
+		else if(rawRange.indexOf('+') == -1) {
+			start_at = Integer.parseInt(rawRange);
+			end_at = start_at;
+		}
 		else {
 		
 			// assume input is valid, if it isn't we'll crash
@@ -49,8 +54,4 @@ public class Chart {
 			results[change_pos] = pos;
 		}
 	}
-}
-
-class Stat {
-	
 }

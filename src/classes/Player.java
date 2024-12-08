@@ -34,8 +34,8 @@ public class Player {
 		 * 	name
 		 * 	points
 		 *  year
-		 *>  on base/control
-		 *>  speed/ip
+		 *  on base/control
+		 *  speed/ip
 		 *>  position
 		 *  hand
 		 *  icons
