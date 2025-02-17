@@ -1,26 +1,26 @@
 package classes;
 
-public class Hitter extends Player
+public class Batter extends Player
 {
 	public int ob;
 	public int speed;
 	public Fielding fielding;
 	
-	public Hitter()
+	public Batter()
 	{
 		super();
 	}
 	
-	public Hitter(String[] stats) {
-		super(stats);
+	public Batter(String[] stats) {
+		this(stats, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22});
 	}
 	
-	public Hitter(String[] stats, int[] positionMap) {
+	public Batter(String[] stats, int[] positionMap) {
 		super(stats, positionMap);
 		
-		this.ob = Integer.parseInt(stats[positionMap[6]]);
-		this.speed = parseSpeed(stats[positionMap[7]]);
-		this.fielding = new Fielding(stats[positionMap[8]]);
+		this.ob = Integer.parseInt(stats[positionMap[8]]);
+		this.speed = parseSpeed(stats[positionMap[9]]);
+		this.fielding = new Fielding(stats[positionMap[10]]);
 	}
 	
 	public int parseSpeed(String speed) {

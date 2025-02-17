@@ -2,7 +2,7 @@ package classes;
 
 import console_version.DataParser;
 
-public class Player {
+public abstract class Player {
 	private boolean isvalid;
 	
 	//All these are going to be public because it saves characters
@@ -14,7 +14,6 @@ public class Player {
 	public String team; // could make this an enum, don't currently care enough to
 	public int points;
 	public int year;
-	public String pos;
 	public char hand; // could make this an enum, don't currently care enough to
 	private String[] real_icons;
 	private String[] assumed_icons;
@@ -23,12 +22,16 @@ public class Player {
 	public Player() {
 		isvalid = false;
 	}
-	
 	public Player(String[] stats) {
-		this(stats, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22});
+		this(stats, defaultmap());
 	}
 	
-
+	/**
+	 * Constructor for general players
+	 * 
+	 * @param stats: array of all stats, generally formed by parsing a card list csv
+	 * @param positionMap: in case of inputs that aren't in the expected order, allows remapping
+	 */
 	public Player(String[] stats, int[] positionMap) {
 		/* Essentials:
 		 * 	name
@@ -36,7 +39,7 @@ public class Player {
 		 *  year
 		 *  on base/control
 		 *  speed/ip
-		 *>  position
+		 *  position
 		 *  hand
 		 *  icons
 		 *  chart
@@ -47,18 +50,34 @@ public class Player {
 			year = Integer.parseInt(stats[positionMap[7]].replaceAll("'",""));
 			hand = stats[positionMap[11]].charAt(0);
 			
+			isvalid = true;
+		}
+		catch (Exception e) {
+			System.out.println("Failed to retrieve name/points/year/hand");
+			isvalid = false;
+		}
+		
+		try {
 			String[] found_icons = getIconsFromString(stats[positionMap[12]]);
 			if(year > 2)
 				real_icons = found_icons;
 			else
 				assumed_icons = found_icons;
 			
+			isvalid = true;
+		}
+		catch (Exception e) {
+			System.out.println("Failed to retrieve icons");
+			isvalid = false;
+		}
+		
+		try {
 			this.chart = new Chart(stats, positionMap);
 			
 			isvalid = true;
 		}
 		catch (Exception e) {
-			System.out.println("Failed to retrieve name/points/year/hand/icons");
+			System.out.println("Failed to retrieve chart");
 			isvalid = false;
 		}
 		
@@ -75,14 +94,26 @@ public class Player {
 			num = stats[positionMap[2]];
 		}
 		catch (Exception e) {
-			System.out.println("Failed to retrieve index/num/set/team");
+			System.out.println("Failed to retrieve index/num/set/team for " + this.toString());
+		}
+	}
+	
+	public static Player createPlayer(String[] stats) {
+		return createPlayer(stats, defaultmap());
+	}
+	public static Player createPlayer(String[] stats, int[] positionMap) {
+		String position = stats[positionMap[10]];
+		if(position.equals("Starter") || position.equals("Reliever") || position.equals("Closer")) {
+			return new Pitcher(stats, positionMap);
+		}
+		else {
+			return new Batter(stats, positionMap);
 		}
 	}
 	
 	public String[] icons() {
 		return real_icons;
 	}
-	
 	public String[] icons(boolean assumeOld) {
 		if(assumeOld && year < 3) {
 			return assumed_icons;
@@ -97,7 +128,6 @@ public class Player {
 		}
 		return name + " '0" + year; //TODO: figure out how to represent cards in a concise string
 	}
-	
 	public String print() {
 		//TODO: potentially look into printing out ASCII versions of the cards
 		return "";
@@ -108,12 +138,17 @@ public class Player {
 	}
 
 	private String[] getIconsFromString(String raw_in) {
+		if(raw_in.length() == 0)
+			return null;
 		raw_in = raw_in.replaceAll("\\[", "").replaceAll("\\]", "").trim();
 		return raw_in.split(" ");
 	}
 	
 	// private wrapper method
-	private int indexof(String in) {
+	private static int indexof(String in) {
 		return DataParser.mapStr(in);
+	}
+	private static int[] defaultmap() {
+		return new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22};
 	}
 }

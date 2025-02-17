@@ -24,7 +24,7 @@ public class Chart {
 		 */
 		
 		// first case, just a dash means do nothing
-		if(rawRange.equals("-"))
+		if(rawRange == null || rawRange.equals("") || rawRange.equals("-"))
 			return;
 		
 		// condensed all the other cases because I could

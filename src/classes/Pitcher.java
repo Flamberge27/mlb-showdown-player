@@ -20,9 +20,9 @@ public class Pitcher extends Player
 	public Pitcher(String[] stats, int[] positionMap) {
 		super(stats, positionMap);
 		
-		this.control = Integer.parseInt(stats[positionMap[6]]);
-		this.ip = Integer.parseInt(stats[positionMap[7]]);
-		this.position = stats[positionMap[8]];
+		this.control = Integer.parseInt(stats[positionMap[8]]);
+		this.ip = Integer.parseInt(stats[positionMap[9]]);
+		this.position = stats[positionMap[10]];
 	}
 	
 	

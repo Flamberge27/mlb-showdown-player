@@ -4,23 +4,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
-import classes.*;
+import classes.Player;
 
 public class DataParser {
 
 	
-	public static ArrayList<Player> parseData() {
+	public static Hashtable<String, Player> parseData() {
 		return parseData("card_list.csv");
 	}
 	
-	public static ArrayList<Player> parseData(String filename) {
+	public static Hashtable<String, Player> parseData(String filename) {
 		try {
 			String src_dir = new File(".").getCanonicalPath();
 			String file = src_dir + "\\src\\data\\" + filename;
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			
-			String[] header = br.readLine().split(",");
+			String[] header = csvSplit(br.readLine());
 			
 			// This step is mostly a formality that can remap columns that are in an unexpected order
 			int[] positions = new int[23];
@@ -32,15 +33,17 @@ public class DataParser {
 				positions[mapStr(header[pos])] = pos; // So that positions[2]
 			}
 			
-			ArrayList<Player> playerList = new ArrayList<Player>();
+			Hashtable<String, Player> playerList = new Hashtable<String, Player>();
 			String line;
+			Player p;
 			while( (line = br.readLine()) != null ) {
 				if(inorder) {
-					Player p = new Player(line.split(","));
+					p = Player.createPlayer(csvSplit(line));
 				}
 				else {
-					Player p = new Player(line.split(","), positions);
+					p = Player.createPlayer(csvSplit(line), positions);
 				}
+				playerList.put(p.index, p);
 			}
 			
 			return playerList;
@@ -52,6 +55,36 @@ public class DataParser {
 			return null;
 		}
 		
+	}
+	
+	public static String[] csvSplit(String csv_line) {
+		String[] ret = new String[23]; // we know ahead of time that this should be 23 columns deep
+		
+		int start_of_clause = 0;
+		boolean inQuotes = false;
+		int ret_pos = 0;
+		
+		try {
+			for (int current = 0; current < csv_line.length(); current++) {
+			    if (csv_line.charAt(current) == '\"') {
+			    	inQuotes = !inQuotes; // toggle state
+			    }
+			    else if (csv_line.charAt(current) == ',' && !inQuotes) {
+			    	// I'm letting us crash out here if we have too many commas, for error-detection in the input
+			    	ret[ret_pos] = csv_line.substring(start_of_clause, current);
+			        start_of_clause = current + 1;
+			        ret_pos++;
+			    }
+			    else if(current == csv_line.length() - 1) {
+			    	ret[ret_pos] = csv_line.substring(start_of_clause);
+			    }
+			}
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("Too many entries in this line: " + csv_line);
+		}
+		
+		return ret;
 	}
 	
 	public static void parr(String[] arr) {
