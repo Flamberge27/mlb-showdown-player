@@ -45,7 +45,7 @@ public class Team {
 	
 	public String toString() {
 		String ret = "============\n";
-		ret += (name == null || name.length() == 0) ? name + ":" : "No name";
+		ret += (name == null || name.length() == 0) ? "No name" : name + ":";
 		ret += "\n-----\n";
 		for(Pitcher p: bullpen) {
 			if(p == onMound)
