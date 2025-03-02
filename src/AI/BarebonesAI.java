@@ -9,7 +9,7 @@ public class BarebonesAI implements AI {
 	@Override
 	public void ChooseStartingPitcher(Team t) {
 		// Simply get the highest point starter
-		int currentPick = -1, currentPoints = 0;
+ 		int currentPick = -1, currentPoints = 0;
 		
 		for(int i = 0; i < t.bullpen.size(); i++) {
 			Pitcher p = t.bullpen.get(i);

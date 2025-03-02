@@ -23,7 +23,7 @@ public class MainProgram {
 		Team fivek = LineupGenerator.constrainedLineup(allPlayers);
 		System.out.println(fast.toString());
 		System.out.println(mets.toString());
-		System.out.println(fivek.toString());
+		//System.out.println(fivek.toString());
 		
 	}
 	

@@ -17,7 +17,7 @@ public abstract class Player {
 	public char hand; // could make this an enum, don't currently care enough to
 	private String[] real_icons;
 	private String[] assumed_icons;
-	public Chart chart;
+	public String[] chart; // array from 0-30, where if result[19] = 'HR', then a 19 results in a homerun
 	
 	public Player() {
 		isvalid = false;
@@ -72,7 +72,11 @@ public abstract class Player {
 		}
 		
 		try {
-			this.chart = new Chart(stats, positionMap);
+			chart = new String[30];
+			
+			for(int i = 13; i < 23; i++) {
+				addResult(stats[positionMap[i]], DataParser.mapInt(i));
+			}
 			
 			isvalid = true;
 		}
@@ -122,6 +126,23 @@ public abstract class Player {
 		return real_icons;
 	}
 	
+	public int outage() {
+		int outs = 0;
+		
+		for(int i = 1; i < this.chart.length; i++) {
+			switch(this.chart[i]) {
+			case "PU":
+			case "SO":
+			case "GB":
+			case "FB":
+				outs++;
+				break;
+			}
+		}
+		
+		return outs;
+	}
+	
 	public String toString() {
 		if(!isvalid) {
 			return "invalid player";
@@ -142,6 +163,47 @@ public abstract class Player {
 			return null;
 		raw_in = raw_in.replaceAll("\\[", "").replaceAll("\\]", "").trim();
 		return raw_in.split(" ");
+	}
+	private void addResult(String rawRange, String pos) {
+		/* A couple different possibilities here:
+		 
+		   -	(do nothing)
+		   #	(just #, # may be two digits)
+		   #-	(just #, # may be two digits)
+		   #-#	(all numbers in the given range, inclusive)
+		   #+	(# and all future numbers
+		 */
+		
+		// first case, just a dash means do nothing
+		if(rawRange == null || rawRange.equals("") || rawRange.equals("-"))
+			return;
+		
+		// condensed all the other cases because I could
+		int start_at, end_at;
+		if(rawRange.contains("-")) {
+			
+			// second or third case
+			String[] split = rawRange.split("-");
+			start_at = Integer.parseInt(split[0]);
+			end_at = (split.length == 1) ? start_at : Integer.parseInt(split[1]);
+			
+		}
+		else if(rawRange.indexOf('+') == -1) {
+			start_at = Integer.parseInt(rawRange);
+			end_at = start_at;
+		}
+		else {
+		
+			// assume input is valid, if it isn't we'll crash
+			// split to the + in case there are any /n chars (or similar) lying around
+			int plus_pos = rawRange.indexOf('+');
+			start_at = Integer.parseInt(rawRange.substring(0, plus_pos));
+			end_at = chart.length - 1;
+		}
+		
+		for(int change_pos = start_at; change_pos <= end_at; change_pos++) {
+			chart[change_pos] = pos;
+		}
 	}
 	
 	// private wrapper method

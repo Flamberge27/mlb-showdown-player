@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import AI.Level1AI;
 import classes.Player;
 import classes.Team;
 
@@ -131,6 +132,6 @@ public abstract class LineupGenerator {
 	private static Team makeTeamFromIndexArray(Hashtable<String, Player> allPlayers, ArrayList<String> indices) {
 		ArrayList<Player> players = new ArrayList<>();
 		indices.forEach( (index) -> players.add(allPlayers.get(index)));
-		return new Team(players);
+		return new Team(players, new Level1AI());
 	}
 }
