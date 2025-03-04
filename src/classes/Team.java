@@ -18,6 +18,8 @@ public class Team {
 	public AI ai;
 	public String name;
 	
+	public boolean strategyAvailable;
+	
 	public Team(ArrayList<Player> players) {
 		this(players, new BarebonesAI());
 	}
@@ -37,6 +39,7 @@ public class Team {
 		}
 		
 		name = "";
+		strategyAvailable = false;
 		
 		ai.ChooseStartingPitcher(this);
 		ai.ChooseStartingLineup(this);
