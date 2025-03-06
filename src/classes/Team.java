@@ -13,9 +13,9 @@ public class Team {
 	public ArrayList<Batter> subs; // current list of remaining substitutions
 	public int atBat; // which spot in the lineup is at bat
 	
-	public Player at_catcher, at_first, at_second, at_short, at_third, at_left, at_center, at_right, DH;
+	public Batter at_catcher, at_first, at_second, at_short, at_third, at_left, at_center, at_right, DH;
 	
-	public AI ai;
+	private AI ai;
 	public String name;
 	
 	public boolean strategyAvailable;
@@ -30,6 +30,7 @@ public class Team {
 		subs = new ArrayList<>();
 		
 		this.ai = ai;
+		this.ai.team = this;
 		
 		for(Player p: players) {
 			if(p instanceof Pitcher)
@@ -41,11 +42,62 @@ public class Team {
 		name = "";
 		strategyAvailable = false;
 		
-		ai.ChooseStartingPitcher(this);
-		ai.ChooseStartingLineup(this);
-		ai.AssignBases(this);
+		this.ai.ChooseStartingPitcher();
+		this.ai.ChooseStartingLineup();
+		this.ai.AssignBases();
 	}
 	
+	/** Team methods
+	 ** 
+	 **/
+	public int infielding() {
+		return this.at_first.fielding.first +
+				this.at_second.fielding.second +
+				this.at_short.fielding.SS +
+				this.at_third.fielding.third;
+	}
+	public int outfielding() {
+		return this.at_left.fielding.LF +
+				this.at_center.fielding.CF +
+				this.at_right.fielding.RF;
+	}
+	
+	/** AI methods, mostly wrappers
+	 ** 
+	 **/
+	public void playStrategyCard(GameManager g, int stage) {
+		if(!this.strategyAvailable) {
+			return;
+		}
+		
+		// true = used strategy, so whether we still have an availability is 
+		strategyAvailable = !this.ai.resolveStrategyCards(g, stage);
+	}
+	public void pinchHit(GameManager g) {
+		this.ai.determinePinchHit(g);
+	}
+	public void relievePitcher(GameManager g) {
+		this.ai.determineReliever(g);
+	}
+	public boolean forceWalk(GameManager g) {
+		return this.ai.forceWalk(g);
+	}
+	public boolean forceBunt(GameManager g) {
+		return this.ai.forceBunt(g);
+	}
+	public int determineStealers(GameManager g) {
+		// %2->0 means steal 2->3, %3 == 0 means steal 3->Home
+		return this.ai.determineStealers(g);
+	}
+	public int determineThrow(GameManager g, int steal_num) {
+		return this.ai.determineThrow(g, steal_num);
+	}
+	
+	/** Misc methods
+	 * 
+	 * @param index1
+	 * @param index2
+	 */
 	public void swap(int index1, int index2) {
 		lineup.set(index1, lineup.set(index2, lineup.get(index1)));
 	}

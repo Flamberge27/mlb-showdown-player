@@ -3,7 +3,7 @@ package AI;
 import classes.*;
 
 public abstract class AI {
-	public Team myTeam;
+	public Team team;
 	
 	public abstract void ChooseStartingPitcher(); // Determine which pitcher is starting
 	public abstract void ChooseStartingLineup(); // Determine starting lineup
@@ -16,7 +16,8 @@ public abstract class AI {
 	public abstract boolean forceWalk(GameManager g);
 	public abstract boolean forceBunt(GameManager g);
 	
-	public abstract boolean resolveStrategyCards(int phase, GameManager g);
+	public abstract boolean resolveStrategyCards(GameManager g, int phase);
 	
-	public abstract int trySteal(GameManager g);
+	public abstract int determineStealers(GameManager g);
+	public abstract int determineThrow(GameManager g, int steal_num);
 }
