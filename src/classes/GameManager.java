@@ -50,7 +50,6 @@ public class GameManager {
 		away.strategyAvailable = true;
 		
 		/* Stages, directly from rulebook
-		 * 0. Steal base(s)
 		 * 1. Offense may pinch hit
 		 * 2. Defense may make pitching change
 		 * 	2.5. Offense may pinch hit
@@ -61,9 +60,8 @@ public class GameManager {
 		 * 7. Take turns playing "on result" cards
 		 * 8. Carry out result
 		 * 9. Take turns playing "after result" cards
+		 * 10. Steal bases
 		 */
-		
-		stealBases();
 		
 		offense.pinchHit(this);
 		defense.relievePitcher(this);
@@ -72,20 +70,28 @@ public class GameManager {
 		boolean forced_walk = defense.forceWalk(this);
 		boolean forced_bunt = offense.forceBunt(this);
 		
+		String hit_result = "";
+		boolean allow_extra_bases = false;
+		
 		playStrategies(5);
 		
 		if(forced_walk) {
-			forcedWalk();
+			hit_result = "FW";
 		}
 		else if(forced_bunt) {
-			bunt();
+			hit_result = "Bu";
 		}
 		else {
-			playPitch();
+			hit_result = rollPitch();
 		}
 		
 		playStrategies(7);
-			
+		
+		allow_extra_bases = resolvePitch(hit_result);
+		
+		if(outs < 3 && allow_extra_bases) {
+			stealBases();
+		}
 	}
 	
 	public void stealBases() {
@@ -159,16 +165,156 @@ public class GameManager {
 		playStrategies(-1);
 	}
 	
-	public boolean playPitch() {
+	public String rollPitch() {
+		// keeping all of this very split up for debugging and strategy card purposes
+		
+		Pitcher pitching = defense.onMound;
+		Batter batting = offense.lineup.get(offense.atBat);
+		
+		String[] chart;
+		
+		int roll = d20();
+		
+		if(batting.ob >= pitching.control + roll) {
+			chart = batting.chart;
+		}
+		else {
+			chart = pitching.chart;
+		}
+		
+		roll = d20();
+		
+		String result = chart[roll];
+		return result;
+	}
+	public boolean resolvePitch(String result) {
+		Batter batting = offense.lineup.get(offense.atBat);
+		
+		// PU,SO,GB,FB,W,S,S+,DB,TR,HR
+		switch(result) {
+		/* Outs */
+		case "PU":
+			outs++;
+			return false;
+			
+		case "SO":
+			outs++;
+			return false;
+			
+		case "GB":
+			return groundBall();
+			
+		case "FB":
+			outs++;
+			return true; // can tag up after FB
+		
+		/* Special cases */
+		case "B": // bunt case
+			bunt();
+			return false;
+		case "FW": // forced walk
+			walk();
+			return false;
+		
+		/* Hits */
+		case "W":
+			walk();
+			return false;
+			
+		case "S":
+			advanceBases();
+			
+			first = batting;
+			return true;
+			
+		case "S+":
+			advanceBases();
+			
+			first = batting;
+			hasFreeTagup = true;
+			return true;
+			
+		case "DB":
+			advanceBases();
+			advanceBases();
+			
+			second = batting;
+			return true;
+			
+		case "TR":
+			advanceBases();
+			advanceBases();
+			advanceBases();
+			
+			third = batting;
+			return true;
+			
+		case "HR":
+			advanceBases();
+			advanceBases();
+			advanceBases();
+			score();
+			
+			return false;
+		}
+		
+		System.out.println("Debug - hit an impossible hit");
 		return false;
 	}
-	private void forcedWalk() {
-		walk();
-	}
-	private void bunt() {
-		
-	}
 	
+	private void bunt() {
+		Pitcher pitching = defense.onMound;
+		Batter batting = offense.lineup.get(offense.atBat);
+		
+		int roll = d20();
+		
+		String result = pitching.chart[roll];
+		
+		//bunter is always out
+		outs++;
+		
+		if(result.equals("PU")) {
+			return;
+		}
+		else {
+			advanceBases();
+		}
+	}
+	private boolean groundBall() {
+		int roll;
+		Batter batting = offense.lineup.get(offense.atBat);
+		
+		if(first == null) {
+			outs++;
+		}
+		else {
+			// player who was at first is always out
+			outs++;
+			
+			// double play attempt
+			roll = d20();
+			if(defense.infielding() + roll > batting.speed) {
+				outs++;
+				first = null;
+			}
+			else {
+				first = batting;
+			}
+		}
+		
+		//if outs >= 3, don't bother advancing bases
+		if(outs >= 3) {
+			return false;
+		}
+		
+		// advance just 2nd and 3rd bases
+		if(third != null) {
+			score();
+		}
+		third = second;
+		second = null;
+		return false;
+	}
 	
 	private void walk() {
 		if(first != null) {
@@ -188,11 +334,6 @@ public class GameManager {
 		}
 		third = second;
 		second = first;
-	}
-	private void advanceBases(int amt) {
-		for(int i = 0; i < amt; i++) {
-			advanceBases();
-		}
 	}
  	private void score() {
 		score(1);

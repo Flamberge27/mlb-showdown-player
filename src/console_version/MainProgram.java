@@ -16,13 +16,13 @@ public class MainProgram {
 		Hashtable<String, Player> allPlayers = DataParser.parseData();
 		
 		Team pl = LineupGenerator.perfectLineup(allPlayers);
-		System.out.println(pl.toString());
+		//System.out.println(pl.toString());
 		
 		Team fast = LineupGenerator.fastLineup(allPlayers);
-		Team mets = LineupGenerator.metsLineup(allPlayers);
-		Team fivek = LineupGenerator.constrainedLineup(allPlayers);
-		System.out.println(fast.toString());
-		System.out.println(mets.toString());
+		//Team mets = LineupGenerator.metsLineup(allPlayers);
+		//Team fivek = LineupGenerator.constrainedLineup(allPlayers);
+		//System.out.println(fast.toString());
+		//System.out.println(mets.toString());
 		//System.out.println(fivek.toString());
 		
 	}
