@@ -13,19 +13,39 @@ public class GameManager {
 	public Batter first, second, third;
 	
 	public boolean hasFreeTagup;
+	public Outputter output;
 	
-	public GameManager(Team h, Team a) {
-		home = h;
-		away = a;
+	public GameManager(Team ho, Team aw) {
+		home = ho;
+		away = aw;
 		
 		offense = away;
 		defense = home;
 	}
 	
+	public void playGame() {
+		inning = 1;
+		
+		while(inning <= 9) {
+			playInning();
+		}
+	}
+	
 	public void playInning() {
 		outs = 0;
 		
-		do {
+		first = null;
+		second = null;
+		third = null;
+		
+		if(offense == away) {
+			print("Top of inning #" + inning);
+		}
+		else {
+			print("Switch sides! Bottom of inning #" + inning);
+		}
+		
+		do {			
 			playAtBat();
 			
 			offense.atBat = (offense.atBat + 1) % offense.lineup.size(); // could do %9 this allows for nonstandard games
@@ -37,6 +57,10 @@ public class GameManager {
 			offense = away;
 			defense = home;
 			inning++;
+			print("\nCurrent Score: " + 
+					"\n   " + homescore + " (" + home.name + ")" + 
+					"\n   " + awayscore + " (" + away.name + ")" +
+					"\n-----");
 		}
 		else {
 			offense = home;
@@ -67,6 +91,8 @@ public class GameManager {
 		defense.relievePitcher(this);
 		offense.pinchHit(this);
 		
+		//print("  " + offense.lineup.get(offense.atBat) + " steps up to the plate!");
+		
 		boolean forced_walk = defense.forceWalk(this);
 		boolean forced_bunt = offense.forceBunt(this);
 		
@@ -92,6 +118,8 @@ public class GameManager {
 		if(outs < 3 && allow_extra_bases) {
 			stealBases();
 		}
+		
+		//print("[" + outs + "/3] outs");
 	}
 	
 	public void stealBases() {
@@ -108,12 +136,14 @@ public class GameManager {
 		int steal_num = offense.determineStealers(this);
 
 		// if not steal 2nd or 3rd, short circuit the tagup
-		if(steal_num % 2 == 0 && steal_num % 3 == 0) {
+		if(steal_num % 2 != 0 && steal_num % 3 != 0) {
 			if(!hasFreeTagup) {
 				return;
 			}
 			
-			if(second == null) {
+			if(second == null && first != null) {
+				print("    + " + first + " tags up to 2nd");
+				
 				second = first;
 				first = null;
 			}
@@ -152,15 +182,32 @@ public class GameManager {
 		outs += (try_third && third_roll > 0) ? 1 : 0;
 		
 		// resolve third first to clear space for person on 2nd
+		if(try_third) {
+			if(third_roll < 0) {
+				if(outs < 3) {
+					print("    * " + third + " steals home!");
+					score();
+				}
+				else {
+					print("    - " + third + " steals home, but with 3 outs, the score doesn't count.");
+				}
+			} 
+			else {
+				print("    o " + third + " is thrown out stealing home");
+			}
+		}
 		third = null;
-		if(try_third && third_roll < 0 && outs < 3) {
-			score();
-		}
 		
-		second = null;
-		if(try_second && second_roll < 0) {
-			third = second;
+		if(try_second) {
+			if(second_roll < 0) {
+				print("    + " + second + " steals third!");
+				third = second;
+			}
+			else {
+				print("    o " + second + " is thrown out stealing third");
+			}
 		}
+		second = null;
 		
 		playStrategies(-1);
 	}
@@ -176,15 +223,18 @@ public class GameManager {
 		int roll = d20();
 		
 		if(batting.ob >= pitching.control + roll) {
+			//print("  > Batter's advantage (" + pitching.control + " + {" + roll + "} vs. " + batting.ob + ")");
 			chart = batting.chart;
 		}
 		else {
+			//print("  > Pitcher's advantage (" + pitching.control + " + {" + roll + "} vs. " + batting.ob + ")");
 			chart = pitching.chart;
 		}
 		
 		roll = d20();
 		
 		String result = chart[roll];
+		//print("    > Rolled a " + roll + ": " + result);
 		return result;
 	}
 	public boolean resolvePitch(String result) {
@@ -194,10 +244,12 @@ public class GameManager {
 		switch(result) {
 		/* Outs */
 		case "PU":
+			print("  o " + batting + " pops it up.");
 			outs++;
 			return false;
 			
 		case "SO":
+			print("  o " + batting + " strikes out.");
 			outs++;
 			return false;
 			
@@ -205,6 +257,7 @@ public class GameManager {
 			return groundBall();
 			
 		case "FB":
+			print("  o " + batting + " hits a fly ball.");
 			outs++;
 			return true; // can tag up after FB
 		
@@ -213,21 +266,24 @@ public class GameManager {
 			bunt();
 			return false;
 		case "FW": // forced walk
+			print("  + " + batting + " is forced to walk.");
 			walk();
 			return false;
 		
 		/* Hits */
 		case "W":
+			print("  + " + batting + " gets a walk.");
 			walk();
 			return false;
 			
 		case "S":
+			print("  + " + batting + " hits a single.");
 			advanceBases();
-			
 			first = batting;
 			return true;
 			
 		case "S+":
+			print("  + " + batting + " hits a single.");
 			advanceBases();
 			
 			first = batting;
@@ -235,6 +291,7 @@ public class GameManager {
 			return true;
 			
 		case "DB":
+			print("  + " + batting + " slams a double!");
 			advanceBases();
 			advanceBases();
 			
@@ -242,6 +299,7 @@ public class GameManager {
 			return true;
 			
 		case "TR":
+			print("  + " + batting + " crushes a triple!");
 			advanceBases();
 			advanceBases();
 			advanceBases();
@@ -250,6 +308,7 @@ public class GameManager {
 			return true;
 			
 		case "HR":
+			print("  + " + batting + " slams a home run!");
 			advanceBases();
 			advanceBases();
 			advanceBases();
@@ -274,9 +333,11 @@ public class GameManager {
 		outs++;
 		
 		if(result.equals("PU")) {
+			print("  o " + batting + " does a bad bunt.");
 			return;
 		}
 		else {
+			print("  - " + batting + " finagles a good bunt.");
 			advanceBases();
 		}
 	}
@@ -285,6 +346,7 @@ public class GameManager {
 		Batter batting = offense.lineup.get(offense.atBat);
 		
 		if(first == null) {
+			print("  o " + batting + " hits a grounder and is thrown out.");
 			outs++;
 		}
 		else {
@@ -294,10 +356,12 @@ public class GameManager {
 			// double play attempt
 			roll = d20();
 			if(defense.infielding() + roll > batting.speed) {
+				print("  oo " + batting + " hits a grounder. Double play!");
 				outs++;
 				first = null;
 			}
 			else {
+				print("  o " + batting + " hits a grounder. " + first + " is thrown out trying for second.");
 				first = batting;
 			}
 		}
@@ -309,6 +373,7 @@ public class GameManager {
 		
 		// advance just 2nd and 3rd bases
 		if(third != null) {
+			print("    * " + third + " scores!");
 			score();
 		}
 		third = second;
@@ -330,10 +395,12 @@ public class GameManager {
 	}
 	private void advanceBases() {
 		if(third != null) {
+			print("    * " + third + " scores!");
 			score();
 		}
 		third = second;
 		second = first;
+		first = null;
 	}
  	private void score() {
 		score(1);
@@ -354,5 +421,11 @@ public class GameManager {
 	
 	private int d20() {
 		return (int)(20 * Math.random() + 1);
+	}
+
+	public void print(String s) {
+		if(output != null) {
+			output.output(s);
+		}
 	}
 }

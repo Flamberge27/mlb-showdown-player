@@ -21,10 +21,11 @@ public class MainProgram {
 		Team fast = LineupGenerator.fastLineup(allPlayers);
 		//Team mets = LineupGenerator.metsLineup(allPlayers);
 		//Team fivek = LineupGenerator.constrainedLineup(allPlayers);
-		//System.out.println(fast.toString());
-		//System.out.println(mets.toString());
-		//System.out.println(fivek.toString());
 		
+		GameManager gm = new GameManager(pl, fast);
+		gm.output = new ConsoleOutput();
+		
+		gm.playGame();
 	}
 	
 	public static void testPlayerGen() {
