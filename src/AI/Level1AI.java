@@ -3,6 +3,7 @@ package AI;
 import java.util.ArrayList;
 
 import classes.Batter;
+import classes.GameManager;
 import classes.Team;
 
 public class Level1AI extends BarebonesAI {
@@ -98,5 +99,70 @@ public class Level1AI extends BarebonesAI {
 		}
 		System.out.println("Attempted to get a positional score for invalid position: " + pos);
 		return 0.0;
+	}
+	
+	@Override
+	public int determineStealers(GameManager g) {
+		// return 0 to represent no bases to steal
+		int toSteal = 1;
+		
+		Batter on2 = g.second;
+		Batter on3 = g.third;
+		
+		double chance2 = 0.0, chance3 = 0.0;
+		
+		if(on3 != null) {
+			chance3 = (on3.speed + 5 + ((g.outs >= 2) ? 5 : 0) - g.defense.outfielding()) / 20.0;
+			
+			if(chance3 >= 0.75) {
+				toSteal *= 3;
+			}
+		}
+		
+		if(on2 != null) {
+			chance2 = (on2.speed - g.defense.outfielding()) / 20.0;
+			
+			if(chance2 >= 0.75) {
+				toSteal *= 2;
+			}
+			else if (chance2 >= 0.60 && toSteal % 3 == 0 && g.outs < 2) {
+				// if we can trade an out for a run by drawing a throw to 2nd, do so
+				// obviously don't do this if it would cause the 3rd out, thus invalidating the run
+				toSteal *= 2;
+			}
+		}
+		
+		return toSteal;
+	}
+	
+	@Override
+	public int determineThrow(GameManager g, int steal_num) {
+		if(steal_num == 2) {
+			return 2;
+		}
+		if(steal_num == 3) {
+			return 3;
+		}
+		if(steal_num == 6) {
+			Batter on2 = g.second;
+			Batter on3 = g.third;
+			double chance2 = (on2.speed - g.defense.outfielding()) / 20.0;
+			double chance3 = (on3.speed + 5 + ((g.outs >= 2) ? 5 : 0) - g.defense.outfielding()) / 20.0;
+			
+			if(chance3 >= 1) {
+				return 2;
+			}
+			if(chance2 >= 1) {
+				return 3;
+			}
+			
+			if(g.outs >= 2) {
+				return (chance2 < chance3) ? 2 : 3;
+			}
+			
+			return 3;
+		}
+		
+		return 0;
 	}
 }

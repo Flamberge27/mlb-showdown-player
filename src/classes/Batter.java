@@ -6,6 +6,8 @@ public class Batter extends Player
 	public int speed;
 	public Fielding fielding;
 	
+	public BatterStats stats;
+	
 	public Batter()
 	{
 		super();
@@ -36,5 +38,17 @@ public class Batter extends Player
 		else {
 			return Integer.parseInt(speed);
 		}
+	}
+
+	@Override
+	public void gameReset() {
+		if(this.stats == null) {
+			this.stats = new BatterStats();
+		}
+	}
+
+	@Override
+	public void fullReset() {
+		this.stats = new BatterStats();
 	}
 }

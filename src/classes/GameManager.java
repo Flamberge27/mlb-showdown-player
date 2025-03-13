@@ -7,8 +7,8 @@ public class GameManager {
 	public int homescore, awayscore;
 	public int outs;
 	
-	private Team offense;
-	private Team defense;
+	public Team offense;
+	public Team defense;
 	
 	public Batter first, second, third;
 	
@@ -171,11 +171,15 @@ public class GameManager {
 		
 		// First calculating results; a runner being thrown out and bringing the total to 2 outs shouldn't
 		// give the other runner a +5 bonus
-		second_roll -= second.speed;
-		second_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+		if (second != null) {
+			second_roll -= second.speed;
+			second_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+		}
 		
-		third_roll -= third.speed + 5;	   // +5 bonus when stealing home
-		third_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+		if (third != null) {
+			third_roll -= third.speed + 5;	   // +5 bonus when stealing home
+			third_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+		}
 		
 		// Now calculating outs; being thrown out at 2nd for the inning's 3rd out will prevent the home runner from scoring
 		outs += (try_second && second_roll > 0) ? 1 : 0;
@@ -187,6 +191,7 @@ public class GameManager {
 				if(outs < 3) {
 					print("    * " + third + " steals home!");
 					score();
+					third.stats.SB++;
 				}
 				else {
 					print("    - " + third + " steals home, but with 3 outs, the score doesn't count.");
@@ -194,6 +199,7 @@ public class GameManager {
 			} 
 			else {
 				print("    o " + third + " is thrown out stealing home");
+				third.stats.CS++;
 			}
 		}
 		third = null;
@@ -202,9 +208,11 @@ public class GameManager {
 			if(second_roll < 0) {
 				print("    + " + second + " steals third!");
 				third = second;
+				third.stats.SB++;
 			}
 			else {
 				print("    o " + second + " is thrown out stealing third");
+				second.stats.CS++;
 			}
 		}
 		second = null;
@@ -238,6 +246,7 @@ public class GameManager {
 		return result;
 	}
 	public boolean resolvePitch(String result) {
+		Pitcher pitching = defense.onMound;
 		Batter batting = offense.lineup.get(offense.atBat);
 		
 		// PU,SO,GB,FB,W,S,S+,DB,TR,HR
@@ -251,6 +260,8 @@ public class GameManager {
 		case "SO":
 			print("  o " + batting + " strikes out.");
 			outs++;
+			batting.stats.SO++;
+			pitching.stats.SO++;
 			return false;
 			
 		case "GB":
@@ -268,52 +279,79 @@ public class GameManager {
 		case "FW": // forced walk
 			print("  + " + batting + " is forced to walk.");
 			walk();
+			
+			batting.stats.BB++;
+			pitching.stats.BB++;
 			return false;
 		
 		/* Hits */
 		case "W":
 			print("  + " + batting + " gets a walk.");
 			walk();
+			
+			batting.stats.BB++;
+			pitching.stats.BB++;
 			return false;
 			
 		case "S":
 			print("  + " + batting + " hits a single.");
 			advanceBases();
 			first = batting;
+			
+			batting.stats.SG++;
+			batting.stats.H++;
+			pitching.stats.H++;
 			return true;
 			
 		case "S+":
 			print("  + " + batting + " hits a single.");
 			advanceBases();
-			
 			first = batting;
+
+			
+			batting.stats.SG++;
+			batting.stats.H++;
+			pitching.stats.H++;
 			hasFreeTagup = true;
 			return true;
 			
 		case "DB":
 			print("  + " + batting + " slams a double!");
 			advanceBases();
+			first = batting;
+			
 			advanceBases();
 			
-			second = batting;
+			batting.stats.DB++;
+			batting.stats.H++;
+			pitching.stats.H++;
 			return true;
 			
 		case "TR":
 			print("  + " + batting + " crushes a triple!");
 			advanceBases();
-			advanceBases();
-			advanceBases();
+			first = batting;
 			
-			third = batting;
+			advanceBases();
+			advanceBases();
+
+			batting.stats.TR++;
+			batting.stats.H++;
+			pitching.stats.H++;
 			return true;
 			
 		case "HR":
 			print("  + " + batting + " slams a home run!");
 			advanceBases();
-			advanceBases();
-			advanceBases();
-			score();
+			first = batting;
 			
+			advanceBases();
+			advanceBases();
+			advanceBases();
+			
+			batting.stats.HR++;
+			batting.stats.H++;
+			pitching.stats.H++;
 			return false;
 		}
 		
@@ -386,6 +424,8 @@ public class GameManager {
 			if(second != null) {
 				if(third != null) {
 					score();
+					
+					offense.batting().stats.RBI++;
 				}
 				third = second;
 			}
@@ -397,6 +437,10 @@ public class GameManager {
 		if(third != null) {
 			print("    * " + third + " scores!");
 			score();
+			
+			if(offense.batting() != third) {
+				offense.batting().stats.RBI++;
+			}
 		}
 		third = second;
 		second = first;
@@ -412,6 +456,9 @@ public class GameManager {
 		else {
 			awayscore += runs;
 		}
+		
+		third.stats.R++;
+		defense.onMound.logRun();
 	}
 	
 	private void playStrategies(int stage) {

@@ -62,6 +62,10 @@ public class Team {
 				this.at_right.fielding.RF;
 	}
 	
+	public Batter batting() {
+		return lineup.get(atBat);
+	}
+	
 	/** AI methods, mostly wrappers
 	 ** 
 	 **/

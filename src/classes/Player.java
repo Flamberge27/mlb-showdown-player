@@ -206,8 +206,11 @@ public abstract class Player {
 		}
 	}
 	
+	public abstract void gameReset();
+	public abstract void fullReset();
+	
 	// private wrapper method
-	private static int indexof(String in) {
+	protected static int indexof(String in) {
 		return DataParser.mapStr(in);
 	}
 	private static int[] defaultmap() {
