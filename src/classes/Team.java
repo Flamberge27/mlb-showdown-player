@@ -15,22 +15,25 @@ public class Team {
 	
 	public Batter at_catcher, at_first, at_second, at_short, at_third, at_left, at_center, at_right, DH;
 	
-	private AI ai;
+	private OffenseAI offenseAI;
+	private DefenseAI defenseAI;
 	public String name;
 	
 	public boolean strategyAvailable;
 	
 	public Team(ArrayList<Player> players) {
-		this(players, new BarebonesAI());
+		this(players, new BarebonesAI(), new BarebonesAI());
 	}
-	public Team(ArrayList<Player> players, AI ai) {
+	public Team(ArrayList<Player> players, OffenseAI oai, DefenseAI dai) {
 		bullpen = new ArrayList<>();
 		roster = new ArrayList<>();
 		lineup = new ArrayList<>();
 		subs = new ArrayList<>();
 		
-		this.ai = ai;
-		this.ai.team = this;
+		oai.setTeam(this);
+		dai.setTeam(this);
+		this.offenseAI = oai;
+		this.defenseAI = dai;
 		
 		for(Player p: players) {
 			if(p instanceof Pitcher)
@@ -41,10 +44,10 @@ public class Team {
 		
 		name = "";
 		strategyAvailable = false;
-		
-		this.ai.ChooseStartingPitcher();
-		this.ai.ChooseStartingLineup();
-		this.ai.AssignBases();
+
+		this.offenseAI.ChooseStartingLineup();
+		this.defenseAI.ChooseStartingPitcher();
+		this.defenseAI.AssignBases();
 	}
 	
 	/** Team methods
@@ -75,26 +78,26 @@ public class Team {
 		}
 		
 		// true = used strategy, so whether we still have an availability is 
-		strategyAvailable = !this.ai.resolveStrategyCards(g, stage);
+		//strategyAvailable = !this.ai.resolveStrategyCards(g, stage);
 	}
 	public void pinchHit(GameManager g) {
-		this.ai.determinePinchHit(g);
+		this.offenseAI.determinePinchHit(g);
 	}
 	public void relievePitcher(GameManager g) {
-		this.ai.determineReliever(g);
+		this.defenseAI.determineReliever(g);
 	}
 	public boolean forceWalk(GameManager g) {
-		return this.ai.forceWalk(g);
+		return this.defenseAI.forceWalk(g);
 	}
 	public boolean forceBunt(GameManager g) {
-		return this.ai.forceBunt(g);
+		return this.offenseAI.forceBunt(g);
 	}
 	public int determineStealers(GameManager g) {
 		// %2->0 means steal 2->3, %3 == 0 means steal 3->Home
-		return this.ai.determineStealers(g);
+		return this.offenseAI.determineStealers(g);
 	}
 	public int determineThrow(GameManager g, int steal_num) {
-		return this.ai.determineThrow(g, steal_num);
+		return this.defenseAI.determineThrow(g, steal_num);
 	}
 	
 	/** Misc methods

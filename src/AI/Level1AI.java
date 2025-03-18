@@ -2,9 +2,7 @@ package AI;
 
 import java.util.ArrayList;
 
-import classes.Batter;
-import classes.GameManager;
-import classes.Team;
+import classes.*;
 
 public class Level1AI extends BarebonesAI {
 	public void AssignBases(Team t) {
@@ -164,5 +162,61 @@ public class Level1AI extends BarebonesAI {
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	public void determineReliever(GameManager g) {
+		/* One of three requirements has to be met:
+		 * 	After the 4th inning
+		 *  Has given up 10 or more runs
+		 *  Strategy card has forced him out of game
+		 */
+		Pitcher pitching = team.onMound;
+		if(g.inning <= 4 && pitching.runsAllowed() < 10 && pitching.canPlay) {
+			return;
+		}
+		
+		// Now determine a reliever
+		// Basic idea - do a rough calc of how many innings of relievers
+		// you have that are better than the current guy
+		// If you can fill out through the 9th, might as well sub
+		ArrayList<Pitcher> relievers = new ArrayList<Pitcher>();
+		int total_innings = 0, highest_pos = 0;
+		for(Pitcher p : team.bullpen) {
+			if(p == pitching) {
+				continue;
+			}
+			if(p.position == Position.Starter) {
+				continue; // Can't sub in a starter
+			}
+			if(!p.canPlay) {
+				continue;
+			}
+			
+			// now add to the list of possible relievers
+			if(naiveQuality(p) >= naiveQuality(pitching)) {
+				total_innings += p.ip;
+				total_innings += naiveQuality(p) - naiveQuality(pitching);
+				
+				relievers.add(p);
+				if(naiveQuality(p) > naiveQuality(relievers.get(highest_pos))) {
+					highest_pos = relievers.size()-1;
+				}
+			}
+		}
+		
+		if(g.inning + total_innings < 9 || relievers.size() < 1) {
+			// we don't have enough gas left; don't bother
+			return;
+		}
+		
+		//do the switch
+		g.print("  <> " + pitching + " is relieved by " + relievers.get(highest_pos));
+		pitching.canPlay = false;
+		team.onMound = relievers.get(highest_pos);
+	}
+	
+	private static int naiveQuality(Pitcher p) {
+		return p.outage() + p.control;
 	}
 }

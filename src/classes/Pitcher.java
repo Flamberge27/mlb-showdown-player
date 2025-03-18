@@ -4,7 +4,10 @@ public class Pitcher extends Player
 {
 	public int control;
 	public int ip;
-	public String position;
+	public Position position;
+	
+	// can be used for multi-game leagues, or for ejecting via strategy card
+	public boolean canPlay = true;
 	
 	private int innings_pitched;
 	private int runs_allowed;
@@ -25,7 +28,7 @@ public class Pitcher extends Player
 		
 		this.control = Integer.parseInt(stats[positionMap[8]]);
 		this.ip = Integer.parseInt(stats[positionMap[9]]);
-		this.position = stats[positionMap[10]];
+		this.position = Position.valueOf(stats[positionMap[10]]);
 	}
 	
 	@Override
@@ -70,5 +73,9 @@ public class Pitcher extends Player
 	public void logInning(int my_batters, int total_batters) {
 		this.innings_pitched++;
 		this.stats.IP += my_batters * 1.0 / total_batters;
+	}
+	
+	public int runsAllowed() {
+		return runs_allowed;
 	}
 }

@@ -135,6 +135,7 @@ public abstract class LineupGenerator {
 		for(Player p: players) {
 			p.fullReset();
 		}
-		return new Team(players, new Level1AI());
+		Level1AI ai = new Level1AI();
+		return new Team(players, ai, ai);
 	}
 }

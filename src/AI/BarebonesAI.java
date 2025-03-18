@@ -4,7 +4,14 @@ import java.util.ArrayList;
 
 import classes.*;
 
-public class BarebonesAI extends AI {
+public class BarebonesAI implements OffenseAI, DefenseAI {
+	
+	public Team team;
+	
+	@Override
+	public void setTeam(Team t) {
+		team = t;
+	}
 
 	@Override
 	public void ChooseStartingPitcher() {
@@ -13,7 +20,7 @@ public class BarebonesAI extends AI {
 		
 		for(int i = 0; i < team.bullpen.size(); i++) {
 			Pitcher p = team.bullpen.get(i);
-			if(p.position.equals("Starter") && (currentPick == -1 || p.points > currentPoints)) {
+			if(p.position == Position.Starter && (currentPick == -1 || p.points > currentPoints)) {
 				currentPick = i;
 				currentPoints = p.points;
 			}
