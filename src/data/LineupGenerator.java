@@ -3,9 +3,8 @@ package data;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import AI.Level1AI;
-import classes.Player;
-import classes.Team;
+import AI.*;
+import classes.*;
 
 public abstract class LineupGenerator {
 	public static Team perfectLineup(Hashtable<String, Player> allPlayers) {
@@ -135,7 +134,6 @@ public abstract class LineupGenerator {
 		for(Player p: players) {
 			p.fullReset();
 		}
-		Level1AI ai = new Level1AI();
-		return new Team(players, ai, ai);
+		return new Team(players, new L1Offense(), new L1Defense());
 	}
 }
