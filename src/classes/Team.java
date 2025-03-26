@@ -172,13 +172,7 @@ public class Team {
 	
 	/** Misc methods
 	 * 
-	 * @param index1
-	 * @param index2
 	 */
-	public void swap(int index1, int index2) {
-		lineup.set(index1, lineup.set(index2, lineup.get(index1)));
-	}
-	
 	public String toString() {
 		String ret = "============\n";
 		ret += (name == null || name.length() == 0) ? "No name" : name + ":";
