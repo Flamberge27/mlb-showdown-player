@@ -15,7 +15,7 @@ public class L1Offense implements OffenseAI {
 		team = t;
 	}
 
-	// TODO: tweaks, maybe
+	// TODO: tweak to only select a lineup that can fill the field
 	@Override
 	public void ChooseStartingLineup() {
 		for(int i = 0; i < team.roster.size(); i++) {

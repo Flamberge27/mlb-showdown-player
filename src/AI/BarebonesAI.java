@@ -43,15 +43,15 @@ public class BarebonesAI implements OffenseAI, DefenseAI {
 	@Override
 	public void AssignBases() {
 		// The most possible barebones algorithm - assume lineups are read-in in the expected order
-		team.at_catcher = team.lineup.get(0);
-		team.at_first = team.lineup.get(1);
-		team.at_second = team.lineup.get(2);
-		team.at_short = team.lineup.get(3);
-		team.at_third = team.lineup.get(4);
-		team.at_left = team.lineup.get(5);
-		team.at_center = team.lineup.get(6);
-		team.at_right = team.lineup.get(7);
-		team.DH = team.lineup.get(8);
+		team.setFielder(Position.Catcher, team.lineup.get(0));
+		team.setFielder(Position.First, team.lineup.get(1));
+		team.setFielder(Position.Second, team.lineup.get(2));
+		team.setFielder(Position.Short, team.lineup.get(3));
+		team.setFielder(Position.Third, team.lineup.get(4));
+		team.setFielder(Position.Left, team.lineup.get(5));
+		team.setFielder(Position.Center, team.lineup.get(6));
+		team.setFielder(Position.Right, team.lineup.get(7));
+		//team.setFielder(Position.None, team.lineup.get(8)); for DH
 	}
 
 	@Override

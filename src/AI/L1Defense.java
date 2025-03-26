@@ -1,6 +1,9 @@
 package AI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import classes.Batter;
 import classes.GameManager;
@@ -35,19 +38,95 @@ public class L1Defense implements DefenseAI {
 		team.onMound = team.bullpen.get(currentPick);
 	}
 	
-	// TODO
 	@Override
 	public void AssignBases() {
-		// The most possible barebones algorithm - assume lineups are read-in in the expected order
-		team.at_catcher = team.lineup.get(0);
-		team.at_first = team.lineup.get(1);
-		team.at_second = team.lineup.get(2);
-		team.at_short = team.lineup.get(3);
-		team.at_third = team.lineup.get(4);
-		team.at_left = team.lineup.get(5);
-		team.at_center = team.lineup.get(6);
-		team.at_right = team.lineup.get(7);
-		team.DH = team.lineup.get(8);
+		// There are definitely ways to not explicitly write this out, but I'm fine with it being explicit like this
+		List<Position> positions = Arrays.asList(Position.Catcher, Position.First, Position.Second, Position.Short,
+												Position.Third, Position.Left, Position.Center, Position.Right);
+		
+		// And guess what, it's an assignment problem! Luckily, we have algorithms for that
+		int[][] matrix = new int[9][8];
+		int max = -1, f;
+		for(int b = 0; b < 9; b++) {
+			for(int p = 0; p < 8; p++) {
+				f = team.lineup.get(b).fielding(positions.get(p)) + 3;
+				matrix[b][p] = f; // turn -1s to 0s
+				
+				f = Math.max(max,  f);
+			}
+		}
+		
+		int[] order = mismarAssignment(matrix);
+		
+		for(int p = 0; p < 8; p++) {
+			team.setFielder(positions.get(p), team.lineup.get(order[p]));
+		}
+		
+		// System.out.println("Debug pause");
+		
+	}
+	
+	
+	// See https://www.iosrjournals.org/iosr-jm/papers/Vol16-issue1/Series-3/E1601032934.pdf
+	private static int[] mismarAssignment(int[][] matrix) {
+		int rows = matrix.length, cols = matrix[0].length;
+		
+		int[] row_sums = new int[rows];
+		int[] col_sums = new int[cols];
+		int total_sum = 0;
+		
+		for(int r = 0; r < rows; r++) {
+			for(int c = 0; c < cols; c++) {
+				row_sums[r] += matrix[r][c];
+				col_sums[c] += matrix[r][c];
+				total_sum += matrix[r][c];
+			}
+		}
+		
+		double[][] expected = new double[rows][cols];
+		double[][] deltas = new double[rows][cols];
+		for(int r = 0; r < rows; r++) {
+			for(int c = 0; c < cols; c++) {
+				expected[r][c] = row_sums[r] * col_sums[c] * 1.0 / total_sum;
+				deltas[r][c] = matrix[r][c] - expected[r][c];
+			}
+		}
+		
+		int[] assignments = new int[cols];
+		int maxr, maxc;
+		ArrayList<Integer> assigned_rows = new ArrayList<Integer>();
+		ArrayList<Integer> assigned_cols = new ArrayList<Integer>();
+		do {
+			maxr = -1;
+			maxc = -1;
+			
+			//find max
+			for(int r = 0; r < rows; r++) {
+				// skip previously used rows
+				if(assigned_rows.contains(r)) {
+					continue;
+				}
+				
+				for(int c = 0; c < cols; c++) {
+					// skip previous used columns
+					if(assigned_cols.contains(c)) {
+						continue;
+					}
+					
+					if(maxr == -1 || deltas[maxr][maxc] < deltas[r][c]) {
+						maxr = r;
+						maxc = c;
+					}
+				}
+			}
+			
+			assigned_rows.add(maxr);
+			assigned_cols.add(maxc);
+			assignments[maxc] = maxr;
+		} 
+		while (assigned_rows.size() < assignments.length);
+		
+		return assignments;
 	}
 
 	@Override

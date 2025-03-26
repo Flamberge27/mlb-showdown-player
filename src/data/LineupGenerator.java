@@ -20,16 +20,16 @@ public abstract class LineupGenerator {
 		
 		indices.add("'04 177 UL"); // Eric Gagne
 		indices.add("'02 20 ASG"); // Kazuhiro Sasaki
-		
-		indices.add("'02 108 SS"); // Mike Piazza '97
-		indices.add("'02 117 SS"); // Frank Thomas '94
-		indices.add("'02 114 SS"); // Roberto Alomar '93
-		indices.add("'04 104-1 UL"); // Alex Rodriguez
-		indices.add("'04 125-1 CC"); // Mike Schmidt
-		indices.add("'03 252 UL"); // Barry Bonds
-		indices.add("'02 120 SS"); // Ken Griffey Jr. '97
+
 		indices.add("'02 106 SS"); // Rickey Henderson '90
+		indices.add("'03 252 UL"); // Barry Bonds
+		indices.add("'02 117 SS"); // Frank Thomas '94
 		indices.add("'02 98 SS"); // Jeff Bagwell '94
+		indices.add("'04 125-1 CC"); // Mike Schmidt
+		indices.add("'02 120 SS"); // Ken Griffey Jr. '97
+		indices.add("'04 104-1 UL"); // Alex Rodriguez
+		indices.add("'02 108 SS"); // Mike Piazza '97
+		indices.add("'02 114 SS"); // Roberto Alomar '93
 		
 		indices.add("'05 172 CC"); // Reggie Jackson
 		indices.add("'03 124 CC"); // Rod Carew
@@ -48,15 +48,15 @@ public abstract class LineupGenerator {
 		
 		indices.add("'04 177 UL"); // Eric Gagne
 		indices.add("'02 20 ASG"); // Kazuhiro Sasaki
-		
-		indices.add("'03 114 SS"); // Ivan Rodriguez
-		indices.add("'05 173 CC"); // Rod Carew
-		indices.add("'04 109-1 UL"); // Craig Biggio
-		indices.add("'04 117-1 UL"); // Luis Aparicio
-		indices.add("'02 299 UL"); // Mark McLemore
+
 		indices.add("'03 142 RS"); // Ichiro Suzuki '01
-		indices.add("'02 119 SS"); // Kenny Lofton '93
 		indices.add("'02 106 SS"); // Rickey Henderson '90
+		indices.add("'05 173 CC"); // Rod Carew
+		indices.add("'03 114 SS"); // Ivan Rodriguez
+		indices.add("'04 109-1 UL"); // Craig Biggio
+		indices.add("'02 119 SS"); // Kenny Lofton '93
+		indices.add("'02 299 UL"); // Mark McLemore
+		indices.add("'04 117-1 UL"); // Luis Aparicio
 		indices.add("'04 118-1 UL"); // Lou Brock
 		
 		Team team = makeTeamFromIndexArray(allPlayers, indices);
@@ -134,6 +134,6 @@ public abstract class LineupGenerator {
 		for(Player p: players) {
 			p.fullReset();
 		}
-		return new Team(players, new L1Offense(), new L1Defense());
+		return new Team(players, new L1Offense(), new L1Defense(), new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8}, null);
 	}
 }
