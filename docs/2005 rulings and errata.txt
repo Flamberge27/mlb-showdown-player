@@ -1,0 +1,66 @@
+Showdown Rulings and Erratas
+
+Extended Play Format
+
+In the 2003 rulebook, the Extended Play Format is incorrectly defined. Our intention was to have one format as Standard Play, where only player cards from the current year, and strategy cards from the current and previous year are legal and another for everyone who wants to be able to use their older cards as well. Cards legal in Extended Play will consist of ANY player card ever printed (promos included) as well as ANY strategy card ever printed, these are both across ALL years of MLB Showdown.
+Starting Pitchers
+
+Effective July 10, 2003 - For all MLB Showdown DCITM sanctioned tournaments and all MLB Showdown Leagues. Starting pitchers may be taken out of the game anytime after the 4th inning and/or after they have given up 10+ runs.
+
+(This information was previously incorrect, and stated that pitchers could not come out until after the 5th inning. This wording matches the rulebook and the intent of the rule.)
+Blue and Red Attachment Ruling
+
+Effective March 7, 2003, in any format, 'blue' attachments can only be played AND ACTIVATED on defense, and 'red' attachments can only be played and activated while on offense.
+#075 Sammy Sosa MLB Showdown 2003 (Base Set)
+
+Sammy Sosa should be played as though he has an ‘S’ icon.
+#S7 Goodbye Baseball MLB Showdown 2003 (Base Set)
+
+Goodbye Baseball should read - Play this card only on a batter who has a Homer result of 18+ or lower, or has the HR icon on his card. Reroll the swing. (Use the same chart as before.) If your batter has the HR icon, add +3 to the swing.
+#123 Robin Ventura (2002 Pennant Run)
+
+His card mistakenly indicates that he bats RIGHT, but he actually bats LEFT.
+#121 Trevor Hoffman (2002 Pennant Run)
+
+His card mistakenly indicates that he pitches LEFT, but he actually pitches RIGHT.
+
+For all MLB Showdown Tournaments, including the Championships, both of these players will use their real-life handedness. None of their other stats will change.
+#238 Johnny Damon MLB Showdown 2002 (Base Set)
+
+When you roll a 19, the result is a double.
+#81 Adrian Brown MLB Showdown 2002 (Trading Deadline)
+
+When you roll a 6, the result is a Out(FB).
+#142 Ichiro (2003 Trading Deadline)
+
+Ichiro should be played as though he has the 'V' and 'SB' icons as well.
+#60 & #140 Kerry Wood (2003 Trading Deadline)
+
+Both of these cards accidentally received the same image. The Rookie Season card was intended to be in the set as well, but turned out to be simply a foil copy of the base set card, with the rookie season (1998) image. So the two cards that exist are a foil #60 and a non foil #60. #140 never made it.
+2004 Trading Deadline erratas
+
+Changes: Trading Deadline cards SHOULD read:
+
+    Jose Cruz TD "Bats S"
+
+    Horacio Ramirez TD "LHP"
+
+    Keith Foulke TD (RP) icon added
+
+    Frank Thomas TD (HR) icon added
+
+    Spahn TD (20) (K) icons added
+
+    Gibson TD (20) (K) icons added
+
+PROMO (OP) Cards/League cards:
+
+    David Segui Promo "Bats S"
+
+
+
+2004 Pennant Run erratas
+
+Changes: Superstar SHOULD read: Play on any die roll.
+
+Play Superstar only on your player with a point value of 500 or more.

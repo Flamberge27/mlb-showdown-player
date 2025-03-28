@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.List;
+
 public class GameManager {
 	public Team home, away;
 	public int inning;
@@ -15,10 +17,25 @@ public class GameManager {
 	public boolean hasFreeTagup;
 	public Outputter output;
 	
+	public GameRules rules;
+	
 	public GameManager(Team ho, Team aw) {
 		home = ho;
 		away = aw;
 		
+		offense = away;
+		defense = home;
+		
+		rules = GameRules.Expert2004();
+	}
+	
+	// TODO: team list processing and more
+	public GameManager(List<Team> teams, GameRules gr) {
+		rules = gr;
+		
+		home = teams.get(0);
+		away = teams.get(1);
+
 		offense = away;
 		defense = home;
 	}
@@ -26,7 +43,7 @@ public class GameManager {
 	public void playGame() {
 		inning = 1;
 		
-		while(inning <= 9) {
+		while(inning <= rules.innings) {
 			playInning();
 		}
 	}
@@ -50,7 +67,7 @@ public class GameManager {
 			
 			offense.atBat = (offense.atBat + 1) % offense.lineup.size(); // could do %9 this allows for nonstandard games
 			
-		} while (outs < 3);
+		} while (outs < rules.outs);
 		
 		// home bats last, so increment inning counter
 		if(offense == home) {
@@ -63,6 +80,7 @@ public class GameManager {
 					"\n-----");
 		}
 		else {
+			//TODO: team switching
 			offense = home;
 			defense = away;
 		}
@@ -87,14 +105,24 @@ public class GameManager {
 		 * 10. Steal bases
 		 */
 		
-		offense.pinchHit(this);
-		defense.relievePitcher(this);
-		offense.pinchHit(this);
+		if(rules.canPinch) {
+			offense.pinchHit(this);
+		}
+		if(rules.canRelieve) {
+			defense.relievePitcher(this);
+		}
+		if(rules.canPinch) {
+			offense.pinchHit(this);
+		}
 		
 		//print("  " + offense.lineup.get(offense.atBat) + " steps up to the plate!");
-		
-		boolean forced_walk = defense.forceWalk(this);
-		boolean forced_bunt = offense.forceBunt(this);
+		boolean forced_walk = false, forced_bunt = false;;
+		if(rules.canIBB) {
+			forced_walk = defense.forceWalk(this);
+		}
+		if(rules.canBunt) {
+			forced_bunt = offense.forceBunt(this);
+		}
 		
 		String hit_result = "";
 		boolean allow_extra_bases = false;
@@ -113,9 +141,9 @@ public class GameManager {
 		
 		playStrategies(7);
 		
-		allow_extra_bases = resolvePitch(hit_result);
+		allow_extra_bases = resolvePitch(hit_result) && rules.canSteal;
 		
-		if(outs < 3 && allow_extra_bases) {
+		if(outs < rules.outs && allow_extra_bases) {
 			stealBases();
 		}
 		
@@ -173,12 +201,12 @@ public class GameManager {
 		// give the other runner a +5 bonus
 		if (second != null) {
 			second_roll -= second.speed;
-			second_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+			second_roll -= (outs == rules.outs - 1) ? 5 : 0; // additional +5 bonus for 2/3 outs
 		}
 		
 		if (third != null) {
 			third_roll -= third.speed + 5;	   // +5 bonus when stealing home
-			third_roll -= (outs >= 2) ? 5 : 0; // additional +5 bonus for 2/3 outs
+			third_roll -= (outs == rules.outs - 1) ? 5 : 0; // additional +5 bonus for 2/3 outs
 		}
 		
 		// Now calculating outs; being thrown out at 2nd for the inning's 3rd out will prevent the home runner from scoring
@@ -188,7 +216,7 @@ public class GameManager {
 		// resolve third first to clear space for person on 2nd
 		if(try_third) {
 			if(third_roll < 0) {
-				if(outs < 3) {
+				if(outs < rules.outs) {
 					print("    * " + third + " steals home!");
 					score();
 					third.stats.SB++;
@@ -265,12 +293,19 @@ public class GameManager {
 			return false;
 			
 		case "GB":
-			return groundBall();
+			if(rules.diverseOuts) {
+				return groundBall();
+			}
+			else {
+				print("  o " + batting + " hits a grounder.");
+				outs++;
+				return false;
+			}
 			
 		case "FB":
 			print("  o " + batting + " hits a fly ball.");
 			outs++;
-			return true; // can tag up after FB
+			return rules.diverseOuts; // can tag up after FB if playing with diverse outs
 		
 		/* Special cases */
 		case "B": // bunt case

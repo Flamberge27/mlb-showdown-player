@@ -1,0 +1,284 @@
+MLB(tm) SHOWDOWN(r) DCI(tm) FLOOR RULES
+2005 Tournament Season
+Effective May 6, 2005
+
+
+Introduction
+The MLB(tm) Showdown DCI Floor Rules work in conjunction with the DCI Universal Tournament Rules, the DCI Penalty Guidelines, and the MLB(tm) Showdown game rules. Players (referred to as "managers" in this document), spectators, and tournament officials must follow these documents while participating in DCI-sanctioned MLB(tm) Showdown tournaments. Individuals who violate sections of these documents will be subject to the appropriate provisions of the DCI Penalty Guidelines.
+
+See Appendix A for a list of the changes from previous versions of this document.
+
+See Appendix B of the DCI Universal Tournament Rules for definitions of terms in this document.
+
+500.	GENERAL MLB(tm) Showdown TOURNAMENT RULES
+
+501.	Formats and Ratings Categories
+The DCI provides MLB(tm) Showdown ratings, and sanctions formats that feed those ratings, as follows:
+
+Constructed Rating
+* MLB(tm) SHOWDOWN Standard
+* MLB(tm) SHOWDOWN Extended
+
+Limited Rating
+* Sealed Deck
+* Booster Draft
+* Rochester Draft
+* Auction Draft
+
+502.	Authorized Cards
+All MLB(tm) Showdown cards, including promotional cards released by Wizards of the Cost, Inc., are legal for tournament play.
+
+Standard-Format Deck Construction
+Player and strategy cards from the following MLB(tm) Showdown card sets are permitted in Standard tournaments:
+* 2004 Base Set(tm)
+* 2004 Trading Deadline(tm)
+* 2004 Pennant Run(tm)
+* All 2004 MLB(tm) Showdown Promotional Cards
+
+* 2005 Base Set(tm)
+* 2005 Trading Deadline(tm) (upon official release date)
+* 2005 Pennant Run(tm) (upon official release date)
+* All 2005 MLB(tm) Showdown Promotional Cards
+
+Extended-Format Deck Construction 
+All Player and Strategy Cards from the following MLB(tm) Showdown card sets are permitted in Extended tournaments:
+* All Base sets (2000 through 2005)
+* All Pennant Run sets (2000 through 2005)
+* All Trading Deadline sets (2002 through 2005)
+* All MLB(tm) Showdown Promotional Cards (2000 through 2005)
+
+Both tournament formats must observe the MLB(tm) Showdown Banned, Restricted, and Errata list.
+
+If an older strategy card is re-released, players may play with any version of that card.
+
+Strategy cards from sets prior to 2002 may be used in decks containing 2002 Strategy cards only if all cards are placed in opaque-backed sleeves and only if the sleeves could not be considered marked.
+
+If sleeves are not used, pre-2002 Strategy cards may be used only in decks that consist exclusively of pre-2002 Strategy cards.
+
+503.	Card Interpretation
+During DCI-sanctioned competition, managers must refer to the official game rules and card-text definitions found in the MLB(tm) Showdown rulebook.
+
+504.	New Releases
+New MLB(tm) Showdown card sets, including any expansions, are allowed in Constructed and Limited tournament play on the first day of their retail releases.
+
+505.	Participation Minimums
+A minimum of four people must participate in an MLB(tm) Showdown DCI-sanctioned event. If this minimum is not met, the event is no longer considered DCI-sanctioned, and will not be included in DCI ratings. If participation minimums are not met for any DCI-sanctioned event, the tournament organizer should report the event as cancelled.
+
+506.	Roster Management
+The team rosters of each manager must consist of exactly twenty-five pitchers and hitters, divided as follows:
+•	Four starting pitchers
+Managers must set up their pitching rotations in order of point value, with the highest-valued starter being first and the lowest-valued starter being fourth. Starters with equal point values are placed in the rotation alphabetically by last name. Each starter must always appear in his spot in the rotation.
+
+•	Nine regulars (hitters in the starting lineup)
+The following field positions (C, 1B, 2B, SS, 3B, LF, CF, and RF) must each be filled by one of the nine regulars when the manager's team is on defense. Hitters listed as OF qualify for all three outfield positions. Hitters listed as IF qualify for all 4 infield positions, 1B, 2B, SS and 3B.
+
+Managers may fill the 1B slot with a hitter that is not qualified at that position, but that hitter has -1 Fielding.
+
+•	Twelve backup / relief pitchers
+
+Managers must submit a written roster to the tournament organizer with each of these twenty positions filled before the tournament begins. Managers do not have to submit a written lineup for each game. The full point value for each player on the roster must be listed next to his name.
+
+	Only pitchers and hitters filling the roster spots listed above are considered active, and may be used at the tournament. Any extra pitchers and hitters a manager draws or drafts in Limited tournaments beyond what is listed in the spots above are considered inactive, and may not be used in the tournament.
+
+No trades are allowed between managers in DCI-sanctioned MLB(tm) Showdown tournaments. 
+
+507.	League Designation
+Before the tournament begins, managers designate on their roster sheets whether their teams are in the American League(tm) or the National League(tm). Once a roster is submitted to the tournament organizer, league affiliations may not be changed.
+
+In National League(tm) games, one of the nine regulars does not begin the game in the starting lineup, but the starting pitcher does. The eight hitters remaining in the starting lineup must fill the field positions for regulars as listed in section 506.
+
+Player cards may be used in teams registered in either league, regardless of the actual player's league affiliation.
+
+508.	Byes and Intentional Draws
+If a manager receives a bye or takes an intentional draw with another manager, treat that round as though the starter slated to appear pitched a complete game. Given that no relievers or closers are considered to have pitched during a bye round, the manager's entire bullpen resets after that round.
+
+Example: If a manager received a third-round bye, his or her fourth starter would be on the mound at the start of round 4. That manager's relievers and closers would be fresh for use, given that his or her third starter was considered to have pitched a complete game in round 3.
+
+
+510. 	MLB(tm) Showdown TOURNAMENT MECHANICS
+
+511.	Match Structure
+MLB(tm) Showdown matches consist of one game per match.
+
+Tournament organizers may run their events using multiple games per match, but match results-not individual game results-are reported to the DCI for the purpose of ratings and rankings. Organizers must announce how many games per match they are using before the tournament begins.
+
+512.	Match Time Limits
+	The DCI recommends using 60-minute time limits for single-game matches.
+
+If tournament organizers choose to run more than one game per match, the DCI recommends that organizers add 40 minutes to the match time for each game beyond the first. Multiple-game matches must consist of an odd number of games. Organizers choosing to run multiple-game matches must announce the revised match time before the tournament begins.
+
+If all matches in a round finish early-and all managers continuing with the tournament are present-the organizer may begin the next round.
+
+513.	Determining Home and Visiting Teams
+The winner of a coin toss (or other random method) determines which team is the visiting team and which team is the home team. Once the home team is determined, each participant in the match determines his or her starting lineup. If the home team is designated as an American League(tm) team, each participant's starting lineup must have nine regulars. If the home team is designated as a National League(tm) team, each manager's starting lineup must have eight regulars, plus the starting pitcher. All field positions (C, 1B, 2B, SS, 3B, LF, RF, and CF) must be represented by a regular.
+
+514.	Pregame Procedures
+The following steps must be performed, in order, before each game begins:
+•	Determine the home and visiting team. This decision determines whether the game is played in the American League(tm) or National League(tm). (See section 513 for more information.) The visiting team hits at the top of the first inning, while the home team pitches.
+•	On the scoresheet, note which starter is scheduled to appear in the game, and place that starter's card in the middle of the playing area.
+•	Choose a batting order, write it on the scoresheet, and place those players on the table in the order that matches the batting order.
+•	Managers may swap cards between their strategy decks and their sideboards.
+•	Managers shuffle their strategy-card decks (see Universal Tournament Rules, section 21).
+•	Managers present their decks to their opponent for additional shuffling and/or cutting.
+•	If the opponent has shuffled the manager's deck, the manager may make one final cut.
+•	Each manager draws three cards.
+•	Play begins.
+
+515.	Keeping Score
+Over the course of each game, managers must maintain a written record of the information listed below on a scoresheet.
+
+Hitters' statistics (per inning by hitter, following the sequence of the batting order):
+• Outs
+• Strikeouts
+• Positions on base
+
+Pitchers' statistics (by pitcher per appearance):
+• Number of innings pitched
+• Runs allowed
+
+Managers are responsible for maintaining their own scoresheets during the tournament to make sure starting pitchers, relievers, and closers are used properly. Managers who are missing scoresheets are considered to have made a severe procedural error (section 113, Universal Penalty Guidelines). The starter in the next game is determined based on who the managers' official rosters specify should pitch that game. In addition, all relievers and closers are considered to have pitched the previous two games.
+
+516. Starting Pitcher Usage
+Managers may not remove their starting pitchers from the game before the fifth inning of play, unless they become tired. If a starter becomes tired before the fifth inning, he may be replaced immediately.
+
+517.	Strategy Cards That Affect Pitchers' IP
+Any strategy cards that impact a pitcher's IP must remain on the table next to the pitcher.
+
+518.	End-of-Match Procedure-Rainout
+If the match time limit is reached before a winner is determined, the managers finish the current inning and the game ends. If the game lasted at least five innings, the manager who is ahead gets the win. If the game is tied-or the sixth inning was not reached-the match ends in a draw. However, should the event be a single-elimination final or tournament, play must continue until a winner is determined.
+
+519.	Tiebreakers for Single-Elimination Finals
+Some tournaments use single-elimination finals (after Swiss-paired rounds) to determine a winner. The primary factor organizers use to determine who advances to the final rounds is the number of match points each player has. Match wins are worth 3 points each, ties (rainouts) are worth 1 point each, and losses are worth 0 points.
+
+As a default, any match-point ties are first resolved using the system specified in the "Tiebreakers" section of the Tournament Organizer's Handbook. Any remaining ties are resolved by comparing managers' runs-scored differentials. Organizers choosing to use different tiebreaking methods must announce which tiebreakers they will use before the tournament begins.
+
+Point differentials are calculated as follows:
+•	Manager A wins two of three matches by winning games with the following scores: 6-2 (point differential is +4), 1-2 (point differential is -1), and 4-2 (point differential is +2). Manager A's total point differential is  +5.
+•	Manager B also wins two of three matches, but his scores are as follows: 5-2 (+3), 0-3 (-3), and 2-1 (+1). Manager B's total point differential is +1.
+•	Manager A advances to the single-elimination final rounds.
+
+
+520.	RULES FOR CONSTRUCTED TOURNAMENTS
+
+521.	Strategy Deck-Size Limits & Usage
+Strategy-card decks at Constructed tournaments must contain exactly sixty cards. If a manager wishes to use a sideboard, it must contain exactly fifteen cards. Additionally, managers may cycle through their strategy decks only once. The discard pile may not be shuffled and reused as a strategy deck within that game.
+
+A manager's combined strategy deck and sideboard may not contain more than four of any individual strategy card.
+
+522.	Sideboard Use
+Before each game begins, managers must allow their opponents to count the number of cards in their sideboards (face down), if requested. Managers may not look at their sideboards during a game. The sideboard must be clearly identified and separated from all other cards in the play area.
+
+Any card exchanges between decks and sideboards must be made on a one-for-one basis to ensure that the sideboard remains at exactly fifteen cards at all times. See section 514, Pregame Procedures, to see when sideboarding is allowed. There are no restrictions on the number of cards a manager may exchange this way as long as one card from the deck is traded for one from the sideboard.
+
+523.	Point Value Cap and Backup Hitter / Relief Pitcher Values
+	The total point value of a Constructed team, including starting pitchers, regulars, backup hitters and relief pitchers, must not exceed 5,000 points. All players on a roster are counted at full point value.
+
+Additional regulars may replace players in the starting lineup at any time and stay in the game.
+
+524.	Constructed Tournament Pitcher/Hitter Use
+A manager may not have more than one copy of the same pitcher or hitter on his or her Constructed roster.
+
+
+530.	RULES FOR LIMITED TOURNAMENTS
+
+531.	Strategy-Deck Size Limits
+Strategy-card decks in Limited tournaments must contain at least thirty cards. Managers may cycle through their strategy deck only once. The discard pile may not be shuffled and reused as a strategy deck within that game.
+
+532.	Strategy-Card Use Limits
+In Sealed Deck tournaments, managers may use as many copies of a strategy card in their decks as they choose.
+
+533.	Limited Tournament Pitcher/Hitter Usage
+A manager may have more than one copy of a pitcher or hitter on his or her Limited roster. Managers who do not receive or draft a hitter to fill each field position (C, 1B, 2B, SS, 3B, LF, CF, or RF) in their rosters of regulars must fill each open position with a generic player who always hits off the pitcher's card, and who has a defensive value of +0.
+
+Generic hitters are represented in the batting lineup by unused strategy cards placed face-down in the appropriate lineup spots. 
+
+534.	Backup Hitters
+There are no backup players in Limited tournaments. Every hitter on a roster is considered a regular, even if that roster has more than nine hitters.
+
+535.	Rules for Sealed Deck Tournaments
+Managers play only with the pitcher/hitter cards and strategy cards they received from the tournament organizer before the event began. Position requirements listed in section 506 apply.
+
+Any opened strategy cards not used in a manager's deck function as his or her sideboard in Sealed Deck tournaments. All strategy decks must contain at least thirty cards. Managers may not look at their sideboards during a game.
+
+Managers may change the composition of their decks by exchanging cards from their decks for cards in their sideboards. There are no restrictions on the number of cards a manager may exchange this way as long as the strategy deck remains at a minimum of thirty cards. Cards need not be exchanged on a one-for-one basis.
+
+If a manager receives fewer than four starting pitchers, his or her starter with the lowest value fills the empty slots in his or her rotation. Each time this pitcher appears in the rotation, he is considered a different pitcher.
+
+536.	Rules for Draft Tournaments
+After managers are grouped into drafting pods of roughly equal size, each manager receives one draft pack (including forty-five strategy cards and fifteen player cards) and one or two booster packs, depending on the Draft format. (Each booster pack includes two strategy cards and seven player cards). For Auction Draft tournaments, each player receives one booster pack in addition to the draft pack. For Booster Draft and Rochester Draft tournaments, the tournament organizer announces before the event whether the players receive one or two booster packs in addition to the draft pack. 
+
+Managers may compete only against others from the same drafting pod.
+
+At a signal from a tournament official, each manager opens his or her draft deck and booster pack at the appropriate time and separates the strategy cards from the pitcher/hitter cards. Managers set aside their strategy cards for later use when building their strategy decks. The pitcher/hitter cards are then drafted according to one of the following sets of draft instructions, depending on which format the organizer chooses:
+
+•	Booster Draft instructions (section 74 of the Universal Tournament Rules)
+•	Rochester Draft instructions (sections 75-78 of the Universal Tournament Rules)
+•	Auction Draft instructions (section 537)
+
+537.	Auction Draft Instructions
+Managers participate in Auction Drafts in pods of four, with each manager receiving one booster pack and one draft pack. Each manager's team has a point-value cap of 5,000 points. Each pod of four managers must have its own table judge.
+
+After packs are opened and players are separated from strategy cards, the twenty-two player cards each manager opens are given to the table judge, who then:
+•	Verifies that twenty-two cards were received from each manager;
+•	combines all player cards from the four managers into one draft pool;
+•	sorts the cards by position. Starters and relievers are separated and outfielders are grouped together; and
+•	lays the player cards out on the table all facing one direction.
+
+While the table judge sorts and lays out the player cards, managers should review the strategy cards they opened and take any notes related to these cards that may help them in the draft. Upon the table judge's announcement, managers have five minutes to review the eighty-eight player cards on the table and take any notes about the available players.
+
+Each player receives a tournament roster sheet from the table to keep track of players they drafted and the points they have spent in the draft.
+
+One manager is designated as the first to nominate a player and make the opening bid. Beginning with that first manager, participants take turns nominating a hitter or pitcher for auction, in an order established by the table judge, through the draft pod.
+
+The manager nominating a player for the auction must turn the appropriate player card sideways to identify it as currently up for bidding.
+
+Any manager may bid on a nominated player, provided he or she has: an open roster slot that the pitcher or hitter is qualified to fill, enough points left under the cap to acquire that player, and 10 points left for each open roster spot remaining. All bidding must be in increments of 10 points.
+
+The judge running the draft must use his or her best judgment as to when to begin the countdown on the last bid for a player. The DCI recommends starting the countdown a few seconds after each bid is announced in order to keep the draft moving.
+
+The table judge maintains a draft record, with a column for each manager. After the table judge counts down and closes each final bid, the following occurs:
+1.	The table judge writes the name of the player drafted, the position filled, and the point value produced by the final bid in the column under the appropriate manager's name.
+2.	The manager drafting that player removes the card from the draft pool and writes the player's name and auction point value on his or her roster sheet. 
+
+The auction continues until all positions are filled on each manager's roster (four starting pitchers, nine position players, and seven backup players / relievers).
+
+Periodically, the table judge should call for a brief break in the draft for a point check and player count. The judge should add up the totals he or she has written in the column for each player and check those totals against what the players have listed on their roster sheets.
+
+Managers exceeding the 5,000-point cap have their bid rejected on the player who puts them over the cap (so the rights to that player fall to the next-highest bidder), and the manager exceeding the cap must stop drafting players until all other rosters within the pod are complete. Once the other managers are done drafting, any manager exceeding the point-value cap may fill his or her roster from what is left.
+
+Managers declare whether their teams are affiliated with the American League(tm) or the National League(tm) on their roster sheets after the auction is complete.
+
+538.	Auction Draft Pairings and Games Per Round
+	The DCI suggests that MLB(tm) Showdown tournaments featuring Auction Drafts should feature three-game matches, with the match winner being the manager who won two of the three games. See section 512 for more information.
+
+	If an organizer's tournaments require shorter match times, the DCI suggests one-game matches with managers being paired following the round-robin system, so each manager within the pod plays each other manager in the pod once. If a round-robin tournament ends in a tie, organizers may break ties based on the total number of runs scored by each manager during competition within the pod. Organizers choosing to use different tiebreakers must announce their tiebreakers before the tournament begins.
+
+539.	Drafting Starting Pitchers
+When managers draft a starting pitcher, they must place the card face down in front of them in a manner that allows the judge and all competitors to count the number of starters they have drafted. Once all managers in the pod have drafted four starters, the table judge announces that managers may now select starting pitchers whenever they choose.
+
+If the draft does not contain enough starting pitchers to fill each manager's starting rotation, the lowest-valued starter in the draft is proxied by the table judge to fill out the necessary quantity.
+
+Example: After all players in a Booster Draft are selected, if any manager still has fewer than four starters, the table judge reviews each roster sheet to identify the drafted starter with the lowest point value. That starter is proxied and fills all open starter positions remaining on managers' roster sheets. If players are tied at the lowest value, the table judge randomly chooses which starter will be proxied.
+
+540.	Draft Strategy-Deck Construction
+	Managers build their strategy decks using cards opened for that draft. Any cards they do not use in their strategy decks function as their sideboards.
+
+Major League Baseball trademarks and copyrights are used with permission of Major League Baseball Properties, Inc. (c)MLBPA Official Licensee-Major League Baseball Players Association.
+Wizards of the Coast and DCI are trademarks of Wizards of the Coast, Inc. (c)2005 Wizards.
+
+
+APPENDIX A- CHANGES FROM PREVIOUS VERSIONS
+
+Changes from July 1, 2004 version
+Section 502: Removes effective date from Trading Deadline cards (new card sets are tournament legal as per Section 504).
+
+Changes from September 5, 2003 version:
+	Section 502: Authorized cards and sets updated.
+Section 505: Section changed to Participation Minimums (moved from DCI Universal Tournament Rules). Previous section (Roster Management) renumbered to 506. The Roster Management rule changed, with the number of backup hitters/relief pitchers increasing to 12, expanding the overall player count to 25.
+	Section 506: Renumbered to 507.
+	Section 507: Renumbered to 508.
+
+Changes from July 8, 2004 version:
+	Section 502: Authorized cards and sets updated.
+	Section 506: IF rule added, DH rule removed.
+	Section 523: Reduced cost for backup hitters removed.
