@@ -17,7 +17,8 @@ public class GameRules {
 	// public int teams;
 	
 	public String home_away;
-	public String pitcher_rotation;
+	public StarterRotation starter_rotation;
+	public RelieverRotation reliever_rotation;
 	public String al_nl;
 
 	public boolean diverseOuts;
@@ -42,8 +43,11 @@ public class GameRules {
 		g.innings = 9;
 		
 		g.home_away = "random";
-		g.pitcher_rotation = null;
+		g.starter_rotation = null;
 		g.al_nl = "al";
+		
+		g.starter_rotation = StarterRotation.Rotate;
+		g.reliever_rotation = RelieverRotation.Free;
 		
 		return g;
 	}
@@ -94,6 +98,7 @@ public class GameRules {
 		g.canBunt = true;
 		
 		g.ip_factor_runs_per = 3;
+		g.reliever_rotation = RelieverRotation.TwoGames;
 		
 		return g;
 	}

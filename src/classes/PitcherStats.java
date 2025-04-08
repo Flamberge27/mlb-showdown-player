@@ -1,7 +1,7 @@
 package classes;
 
-public class PitcherStats {
-	public int G; // Games Pitched
+public class PitcherStats extends Stats{
+	
 	public int GS; // Games Started
 	public int GF; // Games Finished
 	public int CG; // Complete Games
@@ -43,5 +43,9 @@ public class PitcherStats {
 	
 	public double WHIP() {
 		return (BB + H) / IP;
+	}
+	
+	public double WL() {
+		return W * 1.0 / (W + L);
 	}
 }

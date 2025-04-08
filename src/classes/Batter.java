@@ -2,6 +2,8 @@ package classes;
 
 import java.util.HashMap;
 
+import data.CustomFunctions;
+
 public class Batter extends Player
 {
 	public int ob;
@@ -18,11 +20,9 @@ public class Batter extends Player
 	{
 		super();
 	}
-	
 	public Batter(String[] stats) {
 		this(stats, new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22});
 	}
-	
 	public Batter(String[] stats, int[] positionMap) {
 		super(stats, positionMap);
 		
@@ -31,6 +31,19 @@ public class Batter extends Player
 		//fielding = new Fielding(stats[positionMap[10]]);
 		
 		fielding = parseFielding(stats[positionMap[10]]);
+	}
+	public Batter(Batter b) {
+		super(b);
+		
+		ob = b.ob;
+		speed = b.speed;
+		
+		fielding = new HashMap<Position, Integer>();
+		for(Position p: b.fielding.keySet()) {
+			fielding.put(p,  b.fielding(p));
+		}
+		
+		stats = new BatterStats();
 	}
 	
 	public int fielding() {
@@ -197,6 +210,33 @@ public class Batter extends Player
 	@Override
 	public void fullReset() {
 		this.stats = new BatterStats();
+	}
+	
+	@Override
+	public Batter copy() {
+		Batter b = new Batter(this);
+		
+		return b;
+	}
+	
+	public String statString() {
+		String ret = name + "\t";
+		ret += CustomFunctions.limitTo5(stats.W) + "\t";
+		ret += CustomFunctions.limitTo5(stats.AB) + "\t";
+		ret += CustomFunctions.limitTo5(stats.OBP()) + "\t";
+		ret += CustomFunctions.limitTo5(stats.SLG()) + "\t";
+		ret += CustomFunctions.limitTo5(stats.SB);
+		
+		return ret;
+	}
+	@Override
+	public void logGame(boolean win) {
+		if(win) {
+			stats.W++;
+		}
+		else {
+			stats.L++;
+		}
 	}
 
 }

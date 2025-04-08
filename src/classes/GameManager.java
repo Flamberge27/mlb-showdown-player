@@ -27,14 +27,21 @@ public class GameManager {
 		defense = home;
 		
 		rules = GameRules.Expert2004();
+		
+		home.gameReset(this);
+		away.gameReset(this);
+		
 	}
 	
-	// TODO: team list processing and more
+	// TODO: team list processing and more, e.g. 3-way games (don't ask lol)
 	public GameManager(List<Team> teams, GameRules gr) {
 		rules = gr;
 		
 		home = teams.get(0);
 		away = teams.get(1);
+		
+		home.gameReset(this);
+		away.gameReset(this);
 
 		offense = away;
 		defense = home;
@@ -42,9 +49,26 @@ public class GameManager {
 	
 	public void playGame() {
 		inning = 1;
+		homescore = 0;
+		awayscore = 0;
 		
 		while(inning <= rules.innings) {
 			playInning();
+		}
+		
+		home.logGame(homescore > awayscore);
+		away.logGame(awayscore > homescore);
+	}
+	
+	public void playGames(int games) {
+		for(int i = 0; i < games; i++) {
+			offense = away;
+			defense = home;
+			
+			offense.gameReset(this);
+			defense.gameReset(this);
+			
+			playGame();
 		}
 	}
 	
@@ -54,6 +78,7 @@ public class GameManager {
 		first = null;
 		second = null;
 		third = null;
+		hasFreeTagup = false;
 		
 		if(offense == away) {
 			print("Top of inning #" + inning);
@@ -68,6 +93,8 @@ public class GameManager {
 			offense.atBat = (offense.atBat + 1) % offense.lineup.size(); // could do %9 this allows for nonstandard games
 			
 		} while (outs < rules.outs);
+		
+		defense.onMound.stats.IP += 1;
 		
 		// home bats last, so increment inning counter
 		if(offense == home) {
@@ -114,6 +141,9 @@ public class GameManager {
 		if(rules.canPinch) {
 			offense.pinchHit(this);
 		}
+		
+		defense.onMound.stats.BF++;
+		offense.lineup.get(offense.atBat).stats.AB++;
 		
 		//print("  " + offense.lineup.get(offense.atBat) + " steps up to the plate!");
 		boolean forced_walk = false, forced_bunt = false;;
@@ -440,7 +470,7 @@ public class GameManager {
 		}
 		
 		//if outs >= 3, don't bother advancing bases
-		if(outs >= 3) {
+		if(outs >= rules.outs) {
 			return false;
 		}
 		
@@ -505,6 +535,11 @@ public class GameManager {
 		return (int)(20 * Math.random() + 1);
 	}
 
+	public void displayStats() {
+		print(offense.displayStats());
+		print(defense.displayStats());
+	}
+	
 	public void print(String s) {
 		if(output != null) {
 			output.output(s);

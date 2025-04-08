@@ -23,9 +23,12 @@ public class MainProgram {
 		//Team fivek = LineupGenerator.constrainedLineup(allPlayers);
 		
 		GameManager gm = new GameManager(pl, fast);
+		gm.output = new FakeOutput();
+		
+		gm.playGames(10000);
 		gm.output = new ConsoleOutput();
 		
-		gm.playGame();
+		gm.displayStats();
 	}
 	
 	public static void testPlayerGen() {

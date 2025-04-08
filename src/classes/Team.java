@@ -11,13 +11,18 @@ import AI.DefenseAI;
 import AI.OffenseAI;
 
 public class Team {
-	public List<Pitcher> bullpen; // list of ALL pitchers
+	public List<Pitcher> starters;
+	public List<Pitcher> relievers;
 	public Pitcher onMound; // current pitcher
 	
 	public List<Batter> roster; // list of ALL batters
 	public List<Batter> lineup; // current list of 9 hitters/fielders
 	public List<Batter> subs; // current list of remaining substitutions
 	public int atBat; // which spot in the lineup is at bat
+	
+	private List<Player> allPlayers;
+	
+	private int[] forcedlineup, forcedfielding;
 	
 	private OffenseAI offenseAI;
 	private DefenseAI defenseAI;
@@ -34,10 +39,13 @@ public class Team {
 		this(players, oai, dai, null, null);
 	}
 	public Team(ArrayList<Player> players, OffenseAI oai, DefenseAI dai, int[] lineupOrder, int[] fieldingOrder) {
-		bullpen = new ArrayList<>();
+		starters = new ArrayList<>();
+		relievers = new ArrayList<>();
 		roster = new ArrayList<>();
 		lineup = new ArrayList<>();
 		subs = new ArrayList<>();
+		
+		allPlayers = players;
 		
 		oai.setTeam(this);
 		dai.setTeam(this);
@@ -45,10 +53,18 @@ public class Team {
 		this.defenseAI = dai;
 		
 		for(Player p: players) {
-			if(p instanceof Pitcher)
-				bullpen.add((Pitcher)p);
-			else
+			if(p instanceof Pitcher) {
+				Pitcher pi = (Pitcher) p;
+				if(pi.position == Position.Starter) {
+					starters.add(pi);
+				}
+				else {
+					relievers.add(pi);
+				}
+			}
+			else {
 				roster.add((Batter)p);
+			}
 		}
 		
 		name = "";
@@ -56,27 +72,9 @@ public class Team {
 		this.fieldPositions = new HashMap<Position, Batter>();
 		
 		//---\\
-		if(lineupOrder == null) {
-			this.offenseAI.ChooseStartingLineup();	
-		}
-		else {
-			this.setLineupFromArr(lineupOrder);
-		}
-		//---\\
-		if(fieldingOrder == null) {
-			this.defenseAI.AssignBases();
-		}
-		else {
-			this.setFieldingFromArr(fieldingOrder);
-		}
-		//---\\
-		this.defenseAI.ChooseStartingPitcher();
+		forcedlineup = lineupOrder;		// can be null
+		forcedfielding = fieldingOrder; // can be null
 	}
-	
-	public Batter at(Position p) {
-		return fieldPositions.get(p);
-	}
-	
 	/** Team methods
 	 ** 
 	 **/
@@ -111,7 +109,17 @@ public class Team {
 		this.offenseAI.determinePinchHit(g);
 	}
 	public void relievePitcher(GameManager g) {
-		this.defenseAI.determineReliever(g);
+		Pitcher p = this.defenseAI.determineReliever(g);
+		if(p == null) {
+			return;
+		}
+		
+		onMound = p;
+		
+		// this means we're not setting playedThisGame for starters, but we shouldn't ever need to do that, so...
+		if(g.rules.reliever_rotation == RelieverRotation.TwoGames) {
+			onMound.playedThisGame = true;
+		}
 	}
 	public boolean forceWalk(GameManager g) {
 		return this.defenseAI.forceWalk(g);
@@ -169,6 +177,62 @@ public class Team {
 		this.setFielder(Position.Center, roster.get(arr[6]));
 		this.setFielder(Position.Right, roster.get(arr[7]));
 	}
+
+	public Batter at(Position p) {
+		return fieldPositions.get(p);
+	}
+	
+	public void gameReset(GameManager g) {
+		this.atBat = 0;
+		strategyAvailable = false;
+		
+		//=====
+		for(Player p: allPlayers) {
+			p.gameReset();
+		}
+		
+		//---
+		if(forcedlineup != null) {
+			this.setLineupFromArr(forcedlineup);
+		}
+		else {
+			this.offenseAI.ChooseStartingLineup();	
+		}
+		//---
+		if(forcedfielding != null) {
+			this.setFieldingFromArr(forcedfielding);
+		}
+		else {
+			this.defenseAI.AssignBases();
+		}
+		this.pickStarter(g.rules.starter_rotation);
+	}
+	
+	private void pickStarter(StarterRotation rotation) {
+		if(rotation == null || rotation == StarterRotation.PickAny) {
+			defenseAI.ChooseStartingPitcher();
+		}
+		else if(rotation == StarterRotation.Random) {
+			onMound = starters.get((int)(starters.size() * Math.random()));
+		}
+		else if(rotation == StarterRotation.Rotate) {
+			if(onMound == null) {
+				onMound = starters.getFirst();
+			}
+			else {
+				onMound = starters.get((starters.indexOf(onMound) + 1) % starters.size());
+			}
+		}
+		else {
+			System.out.println("!!! Unexpected starter rotation");
+		}
+	}
+	
+	public void logGame(boolean win) {
+		for(Player p: allPlayers) {
+			p.logGame(win);
+		}
+	}
 	
 	/** Misc methods
 	 * 
@@ -177,7 +241,12 @@ public class Team {
 		String ret = "============\n";
 		ret += (name == null || name.length() == 0) ? "No name" : name + ":";
 		ret += "\n-----\n";
-		for(Pitcher p: bullpen) {
+		for(Pitcher p: starters) {
+			if(p == onMound)
+				ret += "> ";
+			ret += p + "\n";
+		}
+		for(Pitcher p: relievers) {
 			if(p == onMound)
 				ret += "> ";
 			ret += p + "\n";
@@ -191,6 +260,50 @@ public class Team {
 		ret += "\n";
 		for(Batter b: subs)
 			ret += b + "\n";
+		return ret;
+	}
+	
+	public String displayStats() {
+		int longest_name = -1;
+		for(Player p: allPlayers) {
+			longest_name = Math.max(p.name.length(), longest_name);
+		}
+		
+		String ret = "============\n";
+		ret += (name == null || name.length() == 0) ? "No name" : name + ":";
+		ret += "\n-----\n";
+		
+		ret += "Pitcher:" + tabs(longest_name, "Pitcher:") + "\tW\tIP\tERA\tFIP\tWHIP\n";
+		for(Pitcher p: starters) {
+			if(p.stats.IP > 0) {
+				ret += tabs(longest_name, p.name) + p.statString()+ "\n";
+			}
+		}
+		for(Pitcher p: relievers) {
+			if(p.stats.IP > 0) {
+				ret += tabs(longest_name, p.name) + p.statString()+ "\n";
+			}
+		}
+		ret += "-----\n";
+		ret += "Batter:" + tabs(longest_name, "Batter:") + "\tW\tAB\tOBP\tSLG\tSB\n";
+		for(Batter b: roster) {
+			if(b.stats.AB > 0) {
+				ret += tabs(longest_name, b.name) + b.statString() + "\n";	
+			}
+		}
+		ret += "\n";
+		
+		return ret;
+	}
+	
+	private String tabs(int longest_name, String s) {
+		int length = longest_name / 8 + 1;
+		
+		String ret = "";
+		for(int cur = s.length()/8 + 1; cur < length; cur++) {
+			ret += "\t";
+		}
+		
 		return ret;
 	}
 }

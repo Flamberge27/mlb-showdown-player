@@ -1,8 +1,9 @@
 package AI;
 
-import java.util.ArrayList;
-
-import classes.*;
+import classes.GameManager;
+import classes.Pitcher;
+import classes.Position;
+import classes.Team;
 
 public class BarebonesAI implements OffenseAI, DefenseAI {
 	
@@ -16,17 +17,16 @@ public class BarebonesAI implements OffenseAI, DefenseAI {
 	@Override
 	public void ChooseStartingPitcher() {
 		// Simply get the highest point starter
- 		int currentPick = -1, currentPoints = 0;
+		Pitcher currentPick = null;
 		
-		for(int i = 0; i < team.bullpen.size(); i++) {
-			Pitcher p = team.bullpen.get(i);
-			if(p.position == Position.Starter && (currentPick == -1 || p.points > currentPoints)) {
-				currentPick = i;
-				currentPoints = p.points;
+		
+		for(Pitcher p : team.starters) {
+			if(currentPick == null || p.points > currentPick.points) {
+				currentPick = p;
 			}
 		}
 		
-		team.onMound = team.bullpen.get(currentPick);
+		team.onMound = currentPick;	
 	}
 
 	@Override
@@ -60,8 +60,9 @@ public class BarebonesAI implements OffenseAI, DefenseAI {
 	}
 
 	@Override
-	public void determineReliever(GameManager g) {
+	public Pitcher determineReliever(GameManager g) {
 		// Do not swap in a reliever
+		return null;
 	}
 
 	@Override

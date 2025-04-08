@@ -25,6 +25,37 @@ public abstract class Player {
 	public Player(String[] stats) {
 		this(stats, defaultmap());
 	}
+	public Player(Player base) {
+		isvalid = base.isvalid;
+		index = (base.index == null) ? null :new String(base.index);
+		rawnum = base.rawnum;
+		num = (base.num == null) ? null : new String(base.num);
+		set = (base.set == null) ? null :new String(base.set);
+		name = (base.name == null) ? null :new String(base.name);
+		team = (base.team == null) ? null :new String(base.team);
+		points = base.points;
+		year = base.year;
+		hand = base.hand;
+		
+		if(base.real_icons != null) {
+			real_icons = new String[base.real_icons.length];
+			for(int i = 0; i < real_icons.length; i++) {
+				real_icons[i] = base.real_icons[i];
+			}
+		}
+		if(base.assumed_icons != null) {
+			assumed_icons = new String[base.assumed_icons.length];
+			for(int i = 0; i < assumed_icons.length; i++) {
+				assumed_icons[i] = base.assumed_icons[i];
+			}
+		}
+		if(base.chart != null) {
+			chart = new String[base.chart.length];
+			for(int i = 0; i < chart.length; i++) {
+				chart[i] = base.chart[i];
+			}
+		}
+	}
 	
 	/**
 	 * Constructor for general players
@@ -147,8 +178,9 @@ public abstract class Player {
 		if(!isvalid) {
 			return "invalid player";
 		}
-		return name + " '0" + year; //TODO: figure out how to represent cards in a concise string
+		return name + " ['0" + year + "]"; //TODO: figure out how to represent cards in a concise string
 	}
+	public abstract String statString();
 	public String print() {
 		//TODO: potentially look into printing out ASCII versions of the cards
 		return "";
@@ -206,8 +238,10 @@ public abstract class Player {
 		}
 	}
 	
+	public abstract void logGame(boolean win);
 	public abstract void gameReset();
 	public abstract void fullReset();
+	public abstract Player copy();
 	
 	// private wrapper method
 	protected static int indexof(String in) {

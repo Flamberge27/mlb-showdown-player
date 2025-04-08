@@ -130,7 +130,9 @@ public abstract class LineupGenerator {
 	
 	private static Team makeTeamFromIndexArray(Hashtable<String, Player> allPlayers, ArrayList<String> indices) {
 		ArrayList<Player> players = new ArrayList<>();
-		indices.forEach( (index) -> players.add(allPlayers.get(index)));
+		indices.forEach( (index) -> players.add(allPlayers.get(index).copy()));
+		
+		
 		for(Player p: players) {
 			p.fullReset();
 		}

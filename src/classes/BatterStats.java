@@ -1,7 +1,7 @@
 package classes;
 
-public class BatterStats {
-	public int G;
+public class BatterStats extends Stats {
+	
 	public int AB;
 	
 	public int R;
@@ -48,5 +48,8 @@ public class BatterStats {
 	}
 	public double OPS() {
 		return OBP() + SLG();
+	}
+	public double WL() {
+		return W * 1.0 / (W + L);
 	}
 }

@@ -1,5 +1,6 @@
 package data;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public abstract class CustomFunctions {
@@ -65,5 +66,31 @@ public abstract class CustomFunctions {
 		return assignments;
 	}
 
-	
+	public static String limitTo5(double num) {
+		DecimalFormat format;
+		
+		if(num >= 1000) {
+			format = new DecimalFormat("####0");
+		}
+		else if(num >= 100) {
+			format = new DecimalFormat("##0.#");
+		}
+		else if(num >= 10) {
+			format = new DecimalFormat("#0.##");
+		}
+		else if(num > 0) {
+			format = new DecimalFormat("0.###");
+		}
+		else if(num > -10){
+			format = new DecimalFormat("0.##");
+		}
+		else if(num > -100) {
+			format = new DecimalFormat("#0.#");
+		}
+		else {
+			format = new DecimalFormat("####");
+		}
+		
+		return format.format(num);
+	}
 }

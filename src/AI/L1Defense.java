@@ -25,17 +25,16 @@ public class L1Defense implements DefenseAI {
 	@Override
 	public void ChooseStartingPitcher() {
 		// Simply get the highest point starter
- 		int currentPick = -1, currentPoints = 0;
+		Pitcher currentPick = null;
 		
-		for(int i = 0; i < team.bullpen.size(); i++) {
-			Pitcher p = team.bullpen.get(i);
-			if(p.position == Position.Starter && (currentPick == -1 || p.points > currentPoints)) {
-				currentPick = i;
-				currentPoints = p.points;
+		
+		for(Pitcher p : team.starters) {
+			if(currentPick == null || p.points > currentPick.points) {
+				currentPick = p;
 			}
 		}
 		
-		team.onMound = team.bullpen.get(currentPick);
+		team.onMound = currentPick;	
 	}
 	
 	@Override
@@ -67,7 +66,7 @@ public class L1Defense implements DefenseAI {
 	}
 
 	@Override
-	public void determineReliever(GameManager g) {
+	public Pitcher determineReliever(GameManager g) {
 		/* One of three requirements has to be met:
 		 * 	After the 4th inning
 		 *  Has given up 10 or more runs
@@ -75,7 +74,7 @@ public class L1Defense implements DefenseAI {
 		 */
 		Pitcher pitching = team.onMound;
 		if(g.inning <= 4 && pitching.runsAllowed() < 10 && pitching.canPlay) {
-			return;
+			return null;
 		}
 		
 		// Now determine a reliever
@@ -84,12 +83,9 @@ public class L1Defense implements DefenseAI {
 		// If you can fill out through the 9th, might as well sub
 		ArrayList<Pitcher> relievers = new ArrayList<Pitcher>();
 		int total_innings = 0, highest_pos = 0;
-		for(Pitcher p : team.bullpen) {
+		for(Pitcher p : team.relievers) {
 			if(p == pitching) {
 				continue;
-			}
-			if(p.position == Position.Starter) {
-				continue; // Can't sub in a starter
 			}
 			if(!p.canPlay) {
 				continue;
@@ -109,13 +105,13 @@ public class L1Defense implements DefenseAI {
 		
 		if(g.inning + total_innings < 9 || relievers.size() < 1) {
 			// we don't have enough gas left; don't bother
-			return;
+			return null;
 		}
 		
 		//do the switch
 		g.print("  <> " + pitching + " is relieved by " + relievers.get(highest_pos));
 		pitching.canPlay = false;
-		team.onMound = relievers.get(highest_pos);
+		return relievers.get(highest_pos);
 	}
 
 	@Override
@@ -162,7 +158,7 @@ public class L1Defense implements DefenseAI {
 	}
 
 	private static int naivePitcherQuality(Pitcher p) {
-		return p.outage() + p.control;
+		return p.outage() + p.current_control();
 	}
 	
 }
