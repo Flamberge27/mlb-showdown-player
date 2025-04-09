@@ -8,8 +8,11 @@ import data.LineupGenerator;
 public class MainProgram {
 	
 	public static void main(String[] args) {
+		Hashtable<String, Player> allPlayers = DataParser.parseData();
 		
-		loadAllPlayers();
+		System.out.println(CardPrinter.printCard(allPlayers.get("'00 453 1st")));
+		
+		//loadAllPlayers();
 	}
 	
 	public static void loadAllPlayers() {

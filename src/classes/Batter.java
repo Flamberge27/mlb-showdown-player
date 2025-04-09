@@ -8,7 +8,7 @@ public class Batter extends Player
 {
 	public int ob;
 	public int speed;
-	//public Fielding fielding;
+	public String fieldingString;
 	
 	private HashMap<Position, Integer> fielding;
 	
@@ -30,6 +30,7 @@ public class Batter extends Player
 		this.speed = parseSpeed(stats[positionMap[9]]);
 		//fielding = new Fielding(stats[positionMap[10]]);
 		
+		fieldingString = stats[positionMap[10]].replaceAll("\"","").trim();
 		fielding = parseFielding(stats[positionMap[10]]);
 	}
 	public Batter(Batter b) {
