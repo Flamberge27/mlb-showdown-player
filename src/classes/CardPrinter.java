@@ -67,15 +67,15 @@ public abstract class CardPrinter {
 		"|  |      |                                 |\n" +
 		"|  |      |                                 |\n" +
 		"|  |      |                   _____________ |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |     |     | |\n" +
-		"|  |      |                   |_____|_____| |\n" +
+		"|  |      |                   " +S00(b,1)+" |\n" +
+		"|  |      |                   " +S00(b,2)+" |\n" +
+		"|  |      |                   " +S00(b,3)+" |\n" +
+		"|  |      |                   " +S00(b,4)+" |\n" +
+		"|  |      |                   " +S00(b,5)+" |\n" +
+		"|  |      |                   " +S00(b,6)+" |\n" +
+		"|  |      |                   " +S00(b,7)+" |\n" +
+		"|  |      |                   " +S00(b,8)+" |\n" +
+		"|  |      |                   " +S00(b,9)+" |\n" +
 		"|  |      |                                 |\n" +
 	   "\\__|______|_________________________________/\n" +
 		"";
@@ -197,5 +197,46 @@ public abstract class CardPrinter {
 		}
 		
 		return ret;
+	}
+	private static String S00(Batter b, int n) {
+		int l = -1, r = 20;
+		String res = statOrder(n);
+		
+		for(int i = 1; i <= 20; i++) {
+			if(b.chart[i].equals(res)) {
+				if(l == -1) {
+					l = i;
+				}
+			}
+			else {
+				if(l != -1) {
+					r = i - 1;
+					break;
+				}
+			}
+		}
+		
+		String left = "";
+		
+		if(l == -1) {
+			left += "-";
+		}
+		else if(l == r) {
+			left += l;
+		}
+		else {
+			left += l + "-" + r;
+		}
+		
+		if(left.length() != 5) {
+			left = (new String(new char[5 - left.length()])).replace('\0', ' ') + left;
+		}
+		
+		String ret = "|" + left + "| " + res + ((res.length() == 1) ? " " : "") + "  |";
+		return (n == 9) ? UL(ret) : ret;
+	}
+	private static String statOrder(int n) {
+		String[] results = {"PU", "SO", "GB", "FB", "W", "S", "S+", "DB", "TR", "HR"};
+		return results[n];
 	}
 }
